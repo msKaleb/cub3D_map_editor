@@ -6,7 +6,7 @@
 #    By: msoria-j <msoria-j@student.42urduliz.com>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/06 08:24:51 by msoria-j          #+#    #+#              #
-#    Updated: 2024/01/06 20:51:43 by msoria-j         ###   ########.fr        #
+#    Updated: 2024/01/06 23:53:07 by msoria-j         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,6 +36,7 @@ SRC		=	errors.c \
 			render.c \
 			utils.c \
 			init.c \
+			flood_fill.c \
 
 OBJ		=	$(SRC:.c=.o)
 

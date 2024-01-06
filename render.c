@@ -6,7 +6,7 @@
 /*   By: msoria-j <msoria-j@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 08:33:40 by msoria-j          #+#    #+#             */
-/*   Updated: 2024/01/06 21:19:11 by msoria-j         ###   ########.fr       */
+/*   Updated: 2024/01/07 00:16:50 by msoria-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,10 @@ int	set_painting(int key_code, t_mlx *m)
 		m->painting = 1;
 	else if (key_code == XK_S)
 		m->painting = 2;
-	else if (key_code == XK_Q)
+	else if (key_code == XK_Q) {
+		m->fd = open(m->argv, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		print_map(m->map, m->fd);
+	}
 	return (0);
 }
 
@@ -61,6 +63,16 @@ int	release_painting(int key_code, t_mlx *m)
 {
 	if (key_code == XK_W || key_code == XK_S)
 		m->painting = 0;
+	else if (key_code == XK_F)
+		m->painting = 3;
+	else if (key_code == XK_UP) // place the character N
+		m->painting = 4;
+	else if (key_code == XK_DOWN) // place the character S
+		m->painting = 5;
+	else if (key_code == XK_LEFT) // place the character W
+		m->painting = 6;
+	else if (key_code == XK_RIGHT) // place the character E
+		m->painting = 7;
 	return (0);
 }
 
@@ -75,7 +87,6 @@ int	render_frame(t_mlx *m)
 {
 	mlx_destroy_image(m->mlx, m->img);
 	m->img = mlx_new_image(m->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
-	// do your stuff
 	render_grid(m, m->grid);
 	mlx_put_image_to_window(m->mlx, m->win, m->img, 0, 0);
 	render_map(m, m->grid, m->map);
@@ -121,6 +132,12 @@ int	render_loop(int x, int y, t_mlx *m)
 		m->map[gy][gx] = '1';
 	else if (m->painting == 2)
 		m->map[gy][gx] = '0';
+	else if (m->painting == 3 && m->map[gy][gx] != '0')
+		flood_fill(m->map, (t_point){m->grid.size_x, m->grid.size_x}, (t_point){gx, gy});
+	else if (m->painting == 4)
+		m->map[gy][gx] = 'N'; // function to check if there is already a character
+	if (m->painting == 3)
+		m->painting = 0;
 	render_frame(m);
 	return 0;
 }

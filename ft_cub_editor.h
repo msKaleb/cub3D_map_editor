@@ -6,7 +6,7 @@
 /*   By: msoria-j <msoria-j@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 08:27:55 by msoria-j          #+#    #+#             */
-/*   Updated: 2024/01/06 21:19:05 by msoria-j         ###   ########.fr       */
+/*   Updated: 2024/01/07 00:04:17 by msoria-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 #  define XK_D 			0x64
 #  define XK_Q 			0x71
 #  define XK_E 			0x65
+#  define XK_F 			0x66
 #  define XK_P 			0x70
 #  define XK_UP			0xff52
 #  define XK_DOWN		0xff54
@@ -153,6 +154,7 @@ typedef struct s_mlx
 	t_wall	wall;
 	t_floor	floor;
 	char	**map;
+	char	*argv;
 	int		painting;
 	int		fd;
 }				t_mlx;
@@ -170,6 +172,7 @@ int		close_mlx(t_mlx *m);
 int		is_space(char c);
 int		err_mlx(void);
 
+void	flood_fill(char **tab, t_point size, t_point begin);
 void	print_pixel(t_mlx *m, t_point p, int color);
 void	render_grid(t_mlx *m, t_grid grid);
 void	print_map(char **map, int fd);

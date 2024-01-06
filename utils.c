@@ -6,7 +6,7 @@
 /*   By: msoria-j <msoria-j@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 08:41:50 by msoria-j          #+#    #+#             */
-/*   Updated: 2024/01/06 23:38:10 by msoria-j         ###   ########.fr       */
+/*   Updated: 2024/01/07 00:18:36 by msoria-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,3 +76,5 @@ void	print_map(char **map, int fd)
 	ft_fprintf(fd, "\n");
 	close(fd);
 }
+
+
