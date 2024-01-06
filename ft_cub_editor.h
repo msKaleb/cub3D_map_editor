@@ -6,7 +6,7 @@
 /*   By: msoria-j <msoria-j@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 08:27:55 by msoria-j          #+#    #+#             */
-/*   Updated: 2024/01/06 14:47:07 by msoria-j         ###   ########.fr       */
+/*   Updated: 2024/01/06 20:10:20 by msoria-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,22 +57,25 @@
 
 /* Some needed values */
 # define COLOR_GRID 	0xFFFAFA
-# define COLOR_WALL 	0x87CEEB
+# define COLOR_WALL 	0x4169E1
 # define COLOR_SPACE	0x000000
-# define COLOR_FLOOR	0x92745B
+# define COLOR_FLOOR	0x808080
 # define SCREEN_WIDTH 	800.0
 # define SCREEN_HEIGHT	800.0
 # define MARGIN			10
 
 /* Events and values for mlx_hook */
-# define ON_KEYDOWN		2
-# define ON_KEYUP		3
-# define ON_MOUSEDOWN	4
-# define ON_MOUSEUP		5
-# define ON_MOUSEMOVE	6
-# define ON_EXPOSE		12
-# define ON_DESTROY		17
-# define X_MASK			131072 // (1L << 17), for Linux
+# define ON_KEYDOWN			2
+# define ON_KEYUP			3
+# define ON_MOUSEDOWN		4
+# define ON_MOUSEUP			5
+# define ON_MOUSEMOVE		6
+# define ON_EXPOSE			12
+# define ON_DESTROY			17
+# define X_KEYPRESS			1		// (1L << 0)
+# define X_KEYRELEASE		2		// (1L << 1)
+# define X_POINTERMOTION	64		// (1L << 6)
+# define X_MASK				131072	// (1L << 17), for Linux
 
 typedef struct s_mlx	t_mlx;
 
@@ -114,6 +117,26 @@ typedef struct s_grid
 	int		end_y;
 }				t_grid;
 
+typedef struct s_wall
+{
+	void	*img;
+	void	*addr;
+	
+	int		bpp;
+	int		sl;
+	int		endian;
+}				t_wall;
+
+typedef struct s_floor
+{
+	void	*img;
+	void	*addr;
+	
+	int		bpp;
+	int		sl;
+	int		endian;
+}				t_floor;
+
 /* minilibx structure */
 typedef struct s_mlx
 {
@@ -127,6 +150,7 @@ typedef struct s_mlx
 	int		endian;
 
 	t_grid	grid;
+	t_wall	wall;
 	char	**map;
 	int		painting;
 }				t_mlx;
@@ -145,5 +169,7 @@ void	print_pixel(t_mlx *m, t_point p, int color);
 void	render_grid(t_mlx *m, t_grid grid);
 void	free_map(char **map);
 void	init_mlx(t_mlx *m);
+
+t_wall	init_wall_img(t_mlx *m);
 
 #endif /* FT_CUB_EDITOR_H */

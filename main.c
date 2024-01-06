@@ -6,7 +6,7 @@
 /*   By: msoria-j <msoria-j@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 08:28:03 by msoria-j          #+#    #+#             */
-/*   Updated: 2024/01/06 17:07:46 by msoria-j         ###   ########.fr       */
+/*   Updated: 2024/01/06 20:12:11 by msoria-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	print_map(char **map)
 
 	while (map[++i])
 		printf("%s\n", map[i]);
+	printf("\n");
 }
 
 t_grid	init_grid(int x, int y)
@@ -40,13 +41,13 @@ char	**create_map(int rows, int cols)
 	map = ft_calloc(sizeof(char *), rows + 1);
 	for (int i = 0; i < rows; i++) {
 		map[i] = ft_calloc(1, cols + 1);
-		ft_memset(map[i], 32, cols);	
+		ft_memset(map[i], 64, cols);	
 	}
 	map[rows] = NULL;
 	return (map);
 }
 
-int	test(int x, int y, t_mlx *m)
+int	render_loop(int x, int y, t_mlx *m)
 {
 	int	gx = (x - MARGIN) / m->grid.step_x;
 	int	gy = (y - MARGIN) / m->grid.step_y;
@@ -66,7 +67,7 @@ int	test(int x, int y, t_mlx *m)
 		m->map[gy][gx] = '0';
 	// ft_fprintf(1, "x: %d - y: %d\n", gx, gy);
 	render_frame(m);
-	print_map(m->map);
+	// print_map(m->map);
 	return 0;
 }
 
@@ -105,17 +106,17 @@ int	main(int argc, char *argv[])
 	init_mlx(&m);
 	m.map = create_map(y, x);
 	m.grid = init_grid(x, y);
+	m.wall = init_wall_img(&m);
 
-	print_map(m.map);
+	// print_map(m.map);
 	render_grid(&m, m.grid);
 	mlx_put_image_to_window(m.mlx, m.win, m.img, 0, 0);
 	// mlx_string_put(m.mlx, m.win, 20, 20, 0x00, argv[1]);
-	mlx_key_hook(m.win, key_hook, &m);
-	// mlx_mouse_hook(m.win, mouse_hook, &m);
-	mlx_hook(m.win, ON_KEYDOWN, (1L<<0), &set_painting, &m);
-	mlx_hook(m.win, ON_KEYUP, (1L<<1), &release_painting, &m);
-	mlx_hook(m.win, 6, (1L<<6), &test, &m);
-	// mlx_hook(m.win, ON_KEYDOWN, (1L<<0), &key_hook, &m);
+	// mlx_key_hook(m.win, key_hook, &m);
+	mlx_mouse_hook(m.win, mouse_hook, &m);
+	mlx_hook(m.win, ON_KEYDOWN, X_KEYPRESS, &set_painting, &m);
+	mlx_hook(m.win, ON_KEYUP, X_KEYRELEASE, &release_painting, &m);
+	mlx_hook(m.win, ON_MOUSEMOVE, X_POINTERMOTION, &render_loop, &m);
 	mlx_hook(m.win, ON_DESTROY, X_MASK, &close_mlx, &m);
 	// mlx_loop_hook(m.mlx, &render_frame, &m);
 	mlx_loop(m.mlx);
