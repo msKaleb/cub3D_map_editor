@@ -1,1 +1,1 @@
-# cub3D_map_editor
+# cub_editor_map_editor
