@@ -6,11 +6,19 @@
 /*   By: msoria-j <msoria-j@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 08:28:03 by msoria-j          #+#    #+#             */
-/*   Updated: 2024/01/06 14:52:54 by msoria-j         ###   ########.fr       */
+/*   Updated: 2024/01/06 17:07:46 by msoria-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_cub_editor.h"
+
+void	print_map(char **map)
+{
+	int	i = -1;
+
+	while (map[++i])
+		printf("%s\n", map[i]);
+}
 
 t_grid	init_grid(int x, int y)
 {
@@ -43,23 +51,22 @@ int	test(int x, int y, t_mlx *m)
 	int	gx = (x - MARGIN) / m->grid.step_x;
 	int	gy = (y - MARGIN) / m->grid.step_y;
 
+	if (m->painting == 0) return 1;
+	if (gx >= m->grid.size_x)
+		gx = m->grid.size_x - 1;
+	if (gy >= m->grid.size_y)
+		gy = m->grid.size_y - 1;
 	if ((x < MARGIN || y < MARGIN)
 		|| (x > SCREEN_WIDTH - MARGIN || y > SCREEN_HEIGHT - MARGIN))
 		return 1;
-	/* if (button == 1)
-		m->map[gy][gx] = '1';
-	else if (button == 3)
-		m->map[gy][gx] = '0';
-	else if (button == 2)
-		m->map[gy][gx] = ' '; */
-	/* for (int i = 0; i < m->grid.size_y; i++)
-		printf("%s\n", m->map[i]); */
-		
-	// ft_fprintf(1, "button: %d - x: %d - y: %d\n", button, gx, gy);
 	(void)m;
 	if (m->painting == 1)
-		ft_fprintf(1, "x: %d - y: %d\n", gx, gy);
-		// ft_fprintf(1, "x: %d - y: %d\n", x, y);
+		m->map[gy][gx] = '1';
+	else if (m->painting == 2)
+		m->map[gy][gx] = '0';
+	// ft_fprintf(1, "x: %d - y: %d\n", gx, gy);
+	render_frame(m);
+	print_map(m->map);
 	return 0;
 }
 
@@ -69,15 +76,16 @@ int	set_painting(int key_code, t_mlx *m)
 		close_mlx(m);
 	if (key_code == XK_W)
 		m->painting = 1;
-	render_frame(m);
+	else if (key_code == XK_S)
+		m->painting = 2;
+	// render_frame(m);
 	return (0);
 }
 
 int	release_painting(int key_code, t_mlx *m)
 {
-	if (key_code == XK_W)
+	if (key_code == XK_W || key_code == XK_S)
 		m->painting = 0;
-
 	return (0);
 }
 
@@ -98,13 +106,11 @@ int	main(int argc, char *argv[])
 	m.map = create_map(y, x);
 	m.grid = init_grid(x, y);
 
-	for (int i = 0; i < y; i++)
-		printf("%s\n", m.map[i]);
-
+	print_map(m.map);
 	render_grid(&m, m.grid);
 	mlx_put_image_to_window(m.mlx, m.win, m.img, 0, 0);
 	// mlx_string_put(m.mlx, m.win, 20, 20, 0x00, argv[1]);
-	// mlx_key_hook(m.win, key_hook, &m);
+	mlx_key_hook(m.win, key_hook, &m);
 	// mlx_mouse_hook(m.win, mouse_hook, &m);
 	mlx_hook(m.win, ON_KEYDOWN, (1L<<0), &set_painting, &m);
 	mlx_hook(m.win, ON_KEYUP, (1L<<1), &release_painting, &m);
