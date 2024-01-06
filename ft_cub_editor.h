@@ -6,7 +6,7 @@
 /*   By: msoria-j <msoria-j@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 08:27:55 by msoria-j          #+#    #+#             */
-/*   Updated: 2024/01/06 12:00:59 by msoria-j         ###   ########.fr       */
+/*   Updated: 2024/01/06 13:11:38 by msoria-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,9 @@
 # define COLOR_WALL 	0x87CEEB
 # define COLOR_SPACE	0x000000
 # define COLOR_FLOOR	0x92745B
-# define SCREEN_WIDTH 	1000.0
-# define SCREEN_HEIGHT	1000.0
+# define SCREEN_WIDTH 	800.0
+# define SCREEN_HEIGHT	800.0
+# define MARGIN			10
 
 /* Events and values for mlx_hook */
 # define ON_KEYDOWN		2

@@ -6,7 +6,7 @@
 /*   By: msoria-j <msoria-j@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 08:28:03 by msoria-j          #+#    #+#             */
-/*   Updated: 2024/01/06 12:11:10 by msoria-j         ###   ########.fr       */
+/*   Updated: 2024/01/06 13:11:17 by msoria-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,15 @@
 
 int	mouse_hook(int button, int x, int y, t_mlx *m)
 {
-	int	gx = m->grid.step_x;
-	int	gy = m->grid.step_y;
-	
-	if ((x > gx && y > gy)
-		&& (x < SCREEN_WIDTH - gx && y < SCREEN_HEIGHT - gy))
-		ft_fprintf(1, "%d - %d - %d\n", button, (x / gx) - 1, (y / gy) - 1);
+	int	gx = (x - MARGIN) / m->grid.step_x;
+	int	gy = (y - MARGIN) / m->grid.step_y;
+
+	(void)button;
+	if (gx < 0) gx = 0;
+	if (gy < 0) gy = 0;
+	if ((x > MARGIN && y > MARGIN)
+		&& (x < SCREEN_WIDTH - MARGIN && y < SCREEN_HEIGHT - MARGIN))
+		ft_fprintf(1, "x: %d - y: %d\n", gx, gy);
 	return 0;
 }
 
@@ -29,10 +32,10 @@ t_grid	init_grid(int x, int y)
 
 	grid.size_x = x;
 	grid.size_y = y;
-	grid.step_x = SCREEN_WIDTH / grid.size_x;
-	grid.step_y = SCREEN_HEIGHT / grid.size_y;
-	grid.end_x = SCREEN_WIDTH - grid.step_x/* (SCREEN_WIDTH / grid.size_x) */;
-	grid.end_y = SCREEN_HEIGHT - grid.step_y/* (SCREEN_HEIGHT / grid.size_y) */;
+	grid.step_x = (SCREEN_WIDTH - MARGIN * 2) / grid.size_x;
+	grid.step_y = (SCREEN_HEIGHT - MARGIN * 2) / grid.size_y;
+	grid.end_x = (SCREEN_WIDTH - MARGIN);
+	grid.end_y = (SCREEN_HEIGHT - MARGIN);
 	return (grid);
 }
 
