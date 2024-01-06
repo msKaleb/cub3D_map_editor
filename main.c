@@ -6,7 +6,7 @@
 /*   By: msoria-j <msoria-j@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 08:28:03 by msoria-j          #+#    #+#             */
-/*   Updated: 2024/01/06 21:22:37 by msoria-j         ###   ########.fr       */
+/*   Updated: 2024/01/06 23:37:00 by msoria-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	main(int argc, char *argv[])
 	if (argc > 3 && argv[3])
 		y = ft_atoi(argv[3]);
 	init_mlx(&m);
-	m.fd = open(argv[1], O_CREAT, 644);
+	m.fd = open(argv[1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	m.map = create_map(y, x);
 	m.grid = init_grid(x, y);
 	m.wall = init_wall_img(&m);
@@ -39,7 +39,6 @@ int	main(int argc, char *argv[])
 	mlx_hook(m.win, ON_MOUSEMOVE, X_POINTERMOTION, &render_loop, &m);
 	mlx_hook(m.win, ON_DESTROY, X_MASK, &close_mlx, &m);
 	mlx_loop(m.mlx);
-	close(m.fd);
 	ft_fprintf(1, "closed\n");
 	return(0);
 }
