@@ -6,7 +6,7 @@
 /*   By: msoria-j <msoria-j@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 08:31:43 by msoria-j          #+#    #+#             */
-/*   Updated: 2024/01/06 20:11:26 by msoria-j         ###   ########.fr       */
+/*   Updated: 2024/01/06 20:13:45 by msoria-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,4 +88,26 @@ t_wall	init_wall_img(t_mlx *m)
 		}
 	}
 	return (wall);
+}
+
+t_floor	init_floor_img(t_mlx *m)
+{
+	t_floor	floor;
+	void	*floor_ptr;
+	int		offset;
+
+	floor.img = mlx_new_image(m->mlx, m->grid.step_x, m->grid.step_y);
+	floor.addr = mlx_get_data_addr
+		(floor.img, &floor.bpp, &floor.sl, &floor.endian);
+	for (int y = 0; y < m->grid.step_y - 2; y++)
+	{
+		for (int x = 0; x < m->grid.step_x - 2; x++)
+		{
+			offset = (y * floor.sl) + (x * (floor.bpp / 8));
+			floor_ptr = floor.addr + offset;
+			*(unsigned int *)floor_ptr = mlx_get_color_value(m->mlx, COLOR_FLOOR);
+			// ft_fprintf(1, "x: %d - y: %d\n", i, j);
+		}
+	}
+	return (floor);
 }

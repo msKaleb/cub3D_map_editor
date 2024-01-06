@@ -6,7 +6,7 @@
 /*   By: msoria-j <msoria-j@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 08:33:40 by msoria-j          #+#    #+#             */
-/*   Updated: 2024/01/06 20:08:07 by msoria-j         ###   ########.fr       */
+/*   Updated: 2024/01/06 20:15:07 by msoria-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,12 @@ void	print_square(t_mlx *m, int gx, int gy, char c)
 	int	x = gx * m->grid.step_x + MARGIN;
 	int	y = gy * m->grid.step_y + MARGIN;
 	
-	if (c == 64)
-		return ;
+	/* if (c == 64)
+		return ; */
 	if (c == '1')
 		mlx_put_image_to_window(m->mlx, m->win, m->wall.img, x + 1, y + 1);
 	if (c == '0')
-		mlx_put_image_to_window(m->mlx, m->win, m->wall.img, x + 1, y + 1);
+		mlx_put_image_to_window(m->mlx, m->win, m->floor.img, x + 1, y + 1);
 }
 
 void	render_map(t_mlx *m, t_grid grid, char **map)

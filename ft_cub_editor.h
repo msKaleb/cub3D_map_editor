@@ -6,7 +6,7 @@
 /*   By: msoria-j <msoria-j@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 08:27:55 by msoria-j          #+#    #+#             */
-/*   Updated: 2024/01/06 20:10:20 by msoria-j         ###   ########.fr       */
+/*   Updated: 2024/01/06 20:14:31 by msoria-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,6 +151,7 @@ typedef struct s_mlx
 
 	t_grid	grid;
 	t_wall	wall;
+	t_floor	floor;
 	char	**map;
 	int		painting;
 }				t_mlx;
@@ -171,5 +172,6 @@ void	free_map(char **map);
 void	init_mlx(t_mlx *m);
 
 t_wall	init_wall_img(t_mlx *m);
+t_floor	init_floor_img(t_mlx *m);
 
 #endif /* FT_CUB_EDITOR_H */

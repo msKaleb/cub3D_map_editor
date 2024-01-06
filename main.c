@@ -6,7 +6,7 @@
 /*   By: msoria-j <msoria-j@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 08:28:03 by msoria-j          #+#    #+#             */
-/*   Updated: 2024/01/06 20:12:11 by msoria-j         ###   ########.fr       */
+/*   Updated: 2024/01/06 20:16:20 by msoria-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,8 @@ int	set_painting(int key_code, t_mlx *m)
 		m->painting = 1;
 	else if (key_code == XK_S)
 		m->painting = 2;
+	else if (key_code == XK_Q)
+		print_map(m->map);
 	// render_frame(m);
 	return (0);
 }
@@ -107,7 +109,7 @@ int	main(int argc, char *argv[])
 	m.map = create_map(y, x);
 	m.grid = init_grid(x, y);
 	m.wall = init_wall_img(&m);
-
+	m.floor = init_floor_img(&m);
 	// print_map(m.map);
 	render_grid(&m, m.grid);
 	mlx_put_image_to_window(m.mlx, m.win, m.img, 0, 0);
