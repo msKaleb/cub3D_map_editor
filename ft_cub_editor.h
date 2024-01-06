@@ -6,7 +6,7 @@
 /*   By: msoria-j <msoria-j@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 08:27:55 by msoria-j          #+#    #+#             */
-/*   Updated: 2024/01/06 11:20:36 by msoria-j         ###   ########.fr       */
+/*   Updated: 2024/01/06 12:00:59 by msoria-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,16 @@ typedef struct s_player
 	char		**map;
 }				t_player;
 
+typedef struct s_grid
+{
+	int		size_x;
+	int		size_y;
+	int		step_x;
+	int		step_y;
+	int		end_x;
+	int		end_y;
+}				t_grid;
+
 /* minilibx structure */
 typedef struct s_mlx
 {
@@ -115,13 +125,7 @@ typedef struct s_mlx
 	int		sl;
 	int		endian;
 
-	// for the grid (put it into its own struct)
-	int		size_x;
-	int		size_y;
-	int		step_x;
-	int		step_y;
-	int		end_x;
-	int		end_y;
+	t_grid	grid;
 }				t_mlx;
 
 /* Functions prototipes */
@@ -135,7 +139,7 @@ int		err_mlx(void);
 
 void	print_pixel(t_mlx *m, t_point p, int color);
 void	free_map(t_player *player);
-void	render_grid(t_mlx *m);
+void	render_grid(t_mlx *m, t_grid grid);
 void	init_mlx(t_mlx *m);
 
 #endif /* FT_CUB_EDITOR_H */
