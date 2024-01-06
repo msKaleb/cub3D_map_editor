@@ -6,7 +6,7 @@
 /*   By: msoria-j <msoria-j@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 08:33:40 by msoria-j          #+#    #+#             */
-/*   Updated: 2024/01/06 12:36:43 by msoria-j         ###   ########.fr       */
+/*   Updated: 2024/01/06 14:28:21 by msoria-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,18 @@ void	print_pixel(t_mlx *m, t_point p, int color)
 	*(unsigned int *)ptr = mlx_get_color_value(m->mlx, color);
 }
 
+/* void	render_map(t_mlx *m, t_grid grid, char **map)
+{
+	for (int y = )
+} */
+
 int	render_frame(t_mlx *m)
 {
 	mlx_destroy_image(m->mlx, m->img);
 	m->img = mlx_new_image(m->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
 	// do your stuff
+	// render_map(m, m->grid, m->map);
+	render_grid(m, m->grid);
 	mlx_put_image_to_window(m->mlx, m->win, m->img, 0, 0);
 	return (0);
 }

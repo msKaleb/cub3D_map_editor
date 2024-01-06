@@ -6,7 +6,7 @@
 /*   By: msoria-j <msoria-j@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 08:41:50 by msoria-j          #+#    #+#             */
-/*   Updated: 2024/01/06 08:42:09 by msoria-j         ###   ########.fr       */
+/*   Updated: 2024/01/06 14:16:54 by msoria-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,23 @@ void	trim_non_ascii(char **tab, int rows)
 	}
 }
 
-void	free_map(t_player *player)
+void	free_map(char **map)
+{
+	int	i;
+
+	if (!map)
+		return ;
+	i = -1;
+	while (map[++i])
+	{
+		free(map[i]);
+		map[i] = NULL;
+	}
+	free(map);
+	map = NULL;
+}
+
+/* void	free_map(t_player *player)
 {
 	int	i;
 	int	rows;
@@ -58,4 +74,4 @@ void	free_map(t_player *player)
 		i++;
 	}
 	free(player->map);
-}
+} */

@@ -6,7 +6,7 @@
 /*   By: msoria-j <msoria-j@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 08:27:55 by msoria-j          #+#    #+#             */
-/*   Updated: 2024/01/06 13:11:38 by msoria-j         ###   ########.fr       */
+/*   Updated: 2024/01/06 14:47:07 by msoria-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,9 +127,12 @@ typedef struct s_mlx
 	int		endian;
 
 	t_grid	grid;
+	char	**map;
+	int		painting;
 }				t_mlx;
 
 /* Functions prototipes */
+int		mouse_hook(int button, int x, int y, t_mlx *m);
 int		key_hook(int key_code, t_mlx *m);
 int		render_frame(t_mlx *m);
 int		err_arg_number(void);
@@ -139,8 +142,8 @@ int		is_space(char c);
 int		err_mlx(void);
 
 void	print_pixel(t_mlx *m, t_point p, int color);
-void	free_map(t_player *player);
 void	render_grid(t_mlx *m, t_grid grid);
+void	free_map(char **map);
 void	init_mlx(t_mlx *m);
 
 #endif /* FT_CUB_EDITOR_H */
