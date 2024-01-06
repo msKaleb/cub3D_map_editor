@@ -6,7 +6,7 @@
 #    By: msoria-j <msoria-j@student.42urduliz.com>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/06 08:24:51 by msoria-j          #+#    #+#              #
-#    Updated: 2024/01/06 08:42:44 by msoria-j         ###   ########.fr        #
+#    Updated: 2024/01/06 20:51:43 by msoria-j         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,19 +35,11 @@ SRC		=	errors.c \
 			mlx_utils.c \
 			render.c \
 			utils.c \
-			
-MAIN_B	=	main_bonus.c #for now
-
-SRC_B	=	parser_bonus.c \
-			minimap_bonus.c
+			init.c \
 
 OBJ		=	$(SRC:.c=.o)
 
 OBJ_M	=	$(MAIN:.c=.o)
-
-OBJ_B	=	$(SRC_B:.c=.o)
-
-OBJ_MB	=	$(MAIN_B:.c=.o)
 
 CC		=	gcc
 
@@ -97,22 +89,12 @@ pre-build:
 			$(ECHO) $(CYAN) "$$HEADER" $(NONE)
 			$(ECHO) $(GREEN)$(ITALIC) "	Compiling $(NAME)..."$(NONE)
 			make -sC $(MLXDIR)
-
-pre-build-bonus:
-			make bonus -sC libft/
-			$(ECHO) $(BLUE) "$$HEADER" $(NONE)
-			$(ECHO) $(MAGENTA)$(ITALIC) "	Compiling $(NAME) (Bonus)..."$(NONE)
-			make -sC $(MLXDIR)
 				
 %.o: %.c
 	 		$(CC) $(CCOBJ) -g -O0
 
 $(NAME):	pre-build $(OBJ) $(OBJ_M)
 			$(CC) $(OBJ_M) $(OBJ) $(LIBFT) $(MLX) $(FLAGS) -o $(NAME)
-			$(ECHO) $(BRIGHT_WHITE)$(BOLD)"\tDone!"$(NONE)
-
-bonus:		pre-build-bonus $(OBJ) $(OBJ_B) $(OBJ_MB)
-			$(CC) $(OBJ_MB) $(OBJ) $(OBJ_B) $(LIBFT) $(MLX) $(FLAGS) -o $(NAME)
 			$(ECHO) $(BRIGHT_WHITE)$(BOLD)"\tDone!"$(NONE)
 			
 clean:
@@ -126,4 +108,4 @@ fclean:		clean
 
 re:			fclean $(NAME)
 
-.PHONY:		all clean fclean re bonus pre-build pre-build-bonus
+.PHONY:		all clean fclean re pre-build

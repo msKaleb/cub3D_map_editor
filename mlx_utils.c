@@ -6,7 +6,7 @@
 /*   By: msoria-j <msoria-j@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 08:31:43 by msoria-j          #+#    #+#             */
-/*   Updated: 2024/01/06 20:13:45 by msoria-j         ###   ########.fr       */
+/*   Updated: 2024/01/06 20:48:59 by msoria-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,14 @@ int	close_mlx(t_mlx *m)
 	exit(EXIT_SUCCESS);
 }
 
-int	key_hook(int key_code, t_mlx *m)
-{
-	if (key_code == XK_ESCAPE)
-		close_mlx(m);
-	/* if (key_code == XK_W)
-		m->painting = 1; */
-	return (0);
-}
+// int	key_hook(int key_code, t_mlx *m)
+// {
+// 	if (key_code == XK_ESCAPE)
+// 		close_mlx(m);
+// 	/* if (key_code == XK_W)
+// 		m->painting = 1; */
+// 	return (0);
+// }
 
 int	mouse_hook(int button, int x, int y, t_mlx *m)
 {

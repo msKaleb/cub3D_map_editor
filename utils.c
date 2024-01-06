@@ -6,7 +6,7 @@
 /*   By: msoria-j <msoria-j@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 08:41:50 by msoria-j          #+#    #+#             */
-/*   Updated: 2024/01/06 14:16:54 by msoria-j         ###   ########.fr       */
+/*   Updated: 2024/01/06 21:20:35 by msoria-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,17 +61,11 @@ void	free_map(char **map)
 	map = NULL;
 }
 
-/* void	free_map(t_player *player)
+void	print_map(char **map, int fd)
 {
-	int	i;
-	int	rows;
+	int	i = -1;
 
-	i = 0;
-	rows = (int)player->height;
-	while (i < rows)
-	{
-		free(player->map[i]);
-		i++;
-	}
-	free(player->map);
-} */
+	while (map[++i])
+		ft_fprintf(fd, "%s\n", map[i]);
+	ft_fprintf(fd, "\n");
+}

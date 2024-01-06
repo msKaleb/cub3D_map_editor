@@ -6,7 +6,7 @@
 /*   By: msoria-j <msoria-j@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 08:27:55 by msoria-j          #+#    #+#             */
-/*   Updated: 2024/01/06 20:14:31 by msoria-j         ###   ########.fr       */
+/*   Updated: 2024/01/06 21:19:05 by msoria-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,13 +56,13 @@
 # endif
 
 /* Some needed values */
-# define COLOR_GRID 	0xFFFAFA
+# define COLOR_GRID 	0x696969
 # define COLOR_WALL 	0x4169E1
 # define COLOR_SPACE	0x000000
 # define COLOR_FLOOR	0x808080
 # define SCREEN_WIDTH 	800.0
 # define SCREEN_HEIGHT	800.0
-# define MARGIN			10
+# define MARGIN			0
 
 /* Events and values for mlx_hook */
 # define ON_KEYDOWN			2
@@ -154,10 +154,14 @@ typedef struct s_mlx
 	t_floor	floor;
 	char	**map;
 	int		painting;
+	int		fd;
 }				t_mlx;
 
 /* Functions prototipes */
 int		mouse_hook(int button, int x, int y, t_mlx *m);
+int		release_painting(int key_code, t_mlx *m);
+int		set_painting(int key_code, t_mlx *m);
+int		render_loop(int x, int y, t_mlx *m);
 int		key_hook(int key_code, t_mlx *m);
 int		render_frame(t_mlx *m);
 int		err_arg_number(void);
@@ -168,10 +172,14 @@ int		err_mlx(void);
 
 void	print_pixel(t_mlx *m, t_point p, int color);
 void	render_grid(t_mlx *m, t_grid grid);
+void	print_map(char **map, int fd);
 void	free_map(char **map);
 void	init_mlx(t_mlx *m);
 
+char	**create_map(int rows, int cols);
+
 t_wall	init_wall_img(t_mlx *m);
 t_floor	init_floor_img(t_mlx *m);
+t_grid	init_grid(int x, int y);
 
 #endif /* FT_CUB_EDITOR_H */
