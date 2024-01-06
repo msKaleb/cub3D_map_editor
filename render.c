@@ -6,7 +6,7 @@
 /*   By: msoria-j <msoria-j@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 08:33:40 by msoria-j          #+#    #+#             */
-/*   Updated: 2024/01/06 08:41:03 by msoria-j         ###   ########.fr       */
+/*   Updated: 2024/01/06 11:20:44 by msoria-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,18 @@ int	render_frame(t_mlx *m)
 	// do your stuff
 	mlx_put_image_to_window(m->mlx, m->win, m->img, 0, 0);
 	return (0);
+}
+
+void	render_grid(t_mlx *m)
+{
+	// horizontal lines
+	for (int x = m->step_x; x < m->end_x; x++)
+		for (int y = m->step_y; y <= m->end_y; y += m->step_y)
+			if (x % 2 == 0 && y % 2 == 0)
+				print_pixel(m, (t_point){x, y}, COLOR_GRID);
+	// vertical lines
+	for (int x = m->step_x; x <= m->end_x; x += m->step_x)
+		for (int y = m->step_y; y < m->end_y; y++)
+			if (x % 2 == 0 && y % 2 == 0)
+				print_pixel(m, (t_point){x, y}, COLOR_GRID);
 }

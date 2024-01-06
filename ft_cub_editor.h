@@ -6,7 +6,7 @@
 /*   By: msoria-j <msoria-j@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 08:27:55 by msoria-j          #+#    #+#             */
-/*   Updated: 2024/01/06 09:56:06 by msoria-j         ###   ########.fr       */
+/*   Updated: 2024/01/06 11:20:36 by msoria-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@
 # endif
 
 /* Some needed values */
-# define COLOR_GRID 	0xFFFFFF
+# define COLOR_GRID 	0xFFFAFA
 # define COLOR_WALL 	0x87CEEB
 # define COLOR_SPACE	0x000000
 # define COLOR_FLOOR	0x92745B
@@ -106,14 +106,22 @@ typedef struct s_player
 /* minilibx structure */
 typedef struct s_mlx
 {
-	void		*mlx;
-	void		*win;
-	void		*img;
-	void		*addr;
+	void	*mlx;
+	void	*win;
+	void	*img;
+	void	*addr;
 
-	int			bpp;
-	int			sl;
-	int			endian;
+	int		bpp;
+	int		sl;
+	int		endian;
+
+	// for the grid (put it into its own struct)
+	int		size_x;
+	int		size_y;
+	int		step_x;
+	int		step_y;
+	int		end_x;
+	int		end_y;
 }				t_mlx;
 
 /* Functions prototipes */
@@ -127,6 +135,7 @@ int		err_mlx(void);
 
 void	print_pixel(t_mlx *m, t_point p, int color);
 void	free_map(t_player *player);
+void	render_grid(t_mlx *m);
 void	init_mlx(t_mlx *m);
 
 #endif /* FT_CUB_EDITOR_H */

@@ -6,7 +6,7 @@
 /*   By: msoria-j <msoria-j@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 08:31:43 by msoria-j          #+#    #+#             */
-/*   Updated: 2024/01/06 08:44:03 by msoria-j         ###   ########.fr       */
+/*   Updated: 2024/01/06 11:25:42 by msoria-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ int	key_hook(int key_code, t_mlx *m)
 	return (0);
 }
 
+
+
 /**
  * @todo check leaks on exit()
   */
@@ -51,4 +53,10 @@ void	init_mlx(t_mlx *m)
 	if (m->img == NULL)
 		exit(err_mlx());
 	m->addr = mlx_get_data_addr(m->img, &m->bpp, &m->sl, &m->endian);
+	m->size_x = 10;
+	m->size_y = 10;
+	m->step_x = (SCREEN_WIDTH) / m->size_x;
+	m->step_y = (SCREEN_HEIGHT) / m->size_y;
+	m->end_x = SCREEN_WIDTH - (SCREEN_WIDTH / m->size_x);
+	m->end_y = SCREEN_HEIGHT - (SCREEN_HEIGHT / m->size_y);
 }
