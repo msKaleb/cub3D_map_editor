@@ -6,7 +6,7 @@
 /*   By: msoria-j <msoria-j@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 08:27:55 by msoria-j          #+#    #+#             */
-/*   Updated: 2024/01/06 08:49:48 by msoria-j         ###   ########.fr       */
+/*   Updated: 2024/01/06 09:56:06 by msoria-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,9 @@
 # endif
 
 /* Some needed values */
-# define COLOR_WALL 	0xBADA55	// Badass color
-# define COLOR_SPACE	0x87CEEB
+# define COLOR_GRID 	0xFFFFFF
+# define COLOR_WALL 	0x87CEEB
+# define COLOR_SPACE	0x000000
 # define COLOR_FLOOR	0x92745B
 # define SCREEN_WIDTH 	1000.0
 # define SCREEN_HEIGHT	1000.0
