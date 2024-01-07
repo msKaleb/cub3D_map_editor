@@ -6,7 +6,7 @@
 /*   By: msoria-j <msoria-j@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 08:33:40 by msoria-j          #+#    #+#             */
-/*   Updated: 2024/01/07 10:39:20 by msoria-j         ###   ########.fr       */
+/*   Updated: 2024/01/07 14:38:45 by msoria-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,11 @@ int	set_painting(int key_code, t_mlx *m)
 	if (key_code == XK_ESCAPE)
 		close_mlx(m);
 	if (key_code == XK_W)
-		m->painting = 1;
+		m->painting = P_WALL;
 	else if (key_code == XK_S)
-		m->painting = 2;
+		m->painting = P_GROUND;
+	else if (key_code == XK_D)
+		m->painting = P_SPACE;
 	else if (key_code == XK_Q) {
 		m->fd = open(m->argv, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		if (m->fd < 0)
@@ -67,19 +69,22 @@ int	set_painting(int key_code, t_mlx *m)
 // key up events
 int	release_painting(int key_code, t_mlx *m)
 {
+	int	x, y;
+
 	if (key_code == XK_W || key_code == XK_S)
-		m->painting = 0;
+		m->painting = P_NONE;
 	else if (key_code == XK_F)
-		m->painting = 3;
+		m->painting = P_FLOOD;
 	else if (key_code == XK_UP)  // place the character N
-		m->painting = 4;
+		m->painting = P_NORTH;
 	else if (key_code == XK_DOWN) // place the character S
-		m->painting = 5;
+		m->painting = P_SOUTH;
 	else if (key_code == XK_LEFT) // place the character W
-		m->painting = 6;
+		m->painting = P_WEST;
 	else if (key_code == XK_RIGHT) // place the character E
-		m->painting = 7;
-	render_loop(m->cur.x, m->cur.y, m);
+		m->painting = P_EAST;
+	mlx_mouse_get_pos(m->mlx, m->win, &x, &y);
+	render_loop(x, y, m);
 	return (0);
 }
 
@@ -107,7 +112,6 @@ void	render_grid(t_mlx *m, t_grid grid)
 		for (int y = MARGIN; y <= grid.end_y; y += grid.step_y) {
 			if (y == SCREEN_HEIGHT)
 				y--;
-			// ft_fprintf(1, "%d %d\n", x, y);
 			print_pixel(m, (t_point){x, y}, COLOR_GRID);
 		}
 	}
@@ -121,13 +125,24 @@ void	render_grid(t_mlx *m, t_grid grid)
 	}
 }
 
-char	place_player(int index)
+char	place_player(char **map, int index)
 {
 	char	player[4] = {'N', 'S', 'W', 'E'};
+	char	*ptr;
+	int		i = 0;
 
 	// check if there is already a player and,
 	// if so, delete it and put it in the new place
-
+	while (map[i])
+	{
+		for (int j = 0; j < 4; j++)
+			if ((ptr = ft_strchr(map[i], player[j])))
+			{
+				*ptr = '0'; // store the previous square type?
+				break ;
+			}
+		i++;
+	}
 	// codes for player range from 4 to 7
 	return (player[index - 4]);
 }
@@ -137,9 +152,7 @@ int	render_loop(int x, int y, t_mlx *m)
 	int	gx = (x - MARGIN) / m->grid.step_x;
 	int	gy = (y - MARGIN) / m->grid.step_y;
 
-	m->cur.x = x;
-	m->cur.y = y;
-	if (m->painting == 0) return 1;
+	if (m->painting == P_NONE) return 1;
 	if (gx >= m->grid.size_x)
 		gx = m->grid.size_x - 1;
 	if (gy >= m->grid.size_y)
@@ -148,16 +161,18 @@ int	render_loop(int x, int y, t_mlx *m)
 		|| (x > SCREEN_WIDTH - MARGIN || y > SCREEN_HEIGHT - MARGIN))
 		return 1;
 	(void)m;
-	if (m->painting == 1)
+	if (m->painting == P_WALL)
 		m->map[gy][gx] = '1';
-	else if (m->painting == 2)
+	else if (m->painting == P_GROUND)
 		m->map[gy][gx] = '0';
-	else if (m->painting == 3 && m->map[gy][gx] != '0')
+	else if (m->painting == P_SPACE)
+		m->map[gy][gx] = ' ';
+	else if (m->painting == P_FLOOD && m->map[gy][gx] != '0')
 		flood_fill(m->map, (t_point){m->grid.size_x, m->grid.size_x}, (t_point){gx, gy});
-	else if (m->painting >= 4 && m->painting <= 7)
-		m->map[gy][gx] = place_player(m->painting); // function to check if there is already a character
-	if (m->painting >= 3 && m->painting <= 7)
-		m->painting = 0;
+	else if (m->painting >= P_NORTH && m->painting <= P_EAST)
+		m->map[gy][gx] = place_player(m->map, m->painting);
+	if (m->painting >= P_FLOOD && m->painting <= P_SPACE)
+		m->painting = P_NONE;
 	render_frame(m);
 	return 0;
 }

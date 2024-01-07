@@ -6,7 +6,7 @@
 /*   By: msoria-j <msoria-j@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 20:49:26 by msoria-j          #+#    #+#             */
-/*   Updated: 2024/01/06 21:17:35 by msoria-j         ###   ########.fr       */
+/*   Updated: 2024/01/07 13:45:13 by msoria-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,12 @@ char	**create_map(int rows, int cols)
 	}
 	map[rows] = NULL;
 	return (map);
+}
+
+void	init_map_data(t_mlx *m, t_point *p)
+{
+	m->map = create_map(p->y, p->x);
+	m->grid = init_grid(p->x, p->y);
+	for (int i = 0; i < MAX_SQUARES; i++)
+		m->squares[i] = init_square_img(m, i);
 }

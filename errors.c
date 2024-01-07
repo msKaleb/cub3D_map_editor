@@ -6,7 +6,7 @@
 /*   By: msoria-j <msoria-j@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 08:27:37 by msoria-j          #+#    #+#             */
-/*   Updated: 2024/01/06 08:27:39 by msoria-j         ###   ########.fr       */
+/*   Updated: 2024/01/07 14:04:50 by msoria-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,9 @@ int	err_file(char *file)
 	printf("Could not open the file: %s\n", file);
 	return (1);
 }
-int	err_mlx(void)
+int	err_mlx(t_mlx *m)
 {
 	printf("Error on minilbx\n");
+	close_mlx(m);
 	return (1);
 }

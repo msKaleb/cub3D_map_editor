@@ -6,21 +6,24 @@
 /*   By: msoria-j <msoria-j@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 08:28:03 by msoria-j          #+#    #+#             */
-/*   Updated: 2024/01/07 10:21:27 by msoria-j         ###   ########.fr       */
+/*   Updated: 2024/01/07 14:50:48 by msoria-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_cub_editor.h"
+#include "colors.h"
 
-void	init_map_data(t_mlx *m, t_point *p, char *path)
+void	print_controls(void)
 {
-	m->argv = path;
-	m->map = create_map(p->y, p->x);
-	m->grid = init_grid(p->x, p->y);
-	for (int i = 0; i < MAX_SQUARES; i++)
-		m->squares[i] = init_square_img(m, i);
-	/* m->wall = init_wall_img(&m);
-	m->floor = init_floor_img(&m); */
+	ft_fprintf(1, "Left click: paint a wall\n");
+	ft_fprintf(1, "Middle click: delete a square\n");
+	ft_fprintf(1, "Right click: paint one ground square\n");
+	ft_fprintf(1, "Hold W + move mouse: paint walls\n");
+	ft_fprintf(1, "Hold S + move mouse: paint ground\n");
+	ft_fprintf(1, "Hold D + move mouse: delete square\n");
+	ft_fprintf(1, "Press F: ground flood fill\n");
+	ft_fprintf(1, "Press Arrow Keys: place the player (N, S, W, E)\n");
+	ft_fprintf(1, "Press Q: save map (with default colors and texture paths)\n");
 }
 
 // color = (alpha << 24) + (red << 16) + (green << 8) + (blue);
@@ -41,13 +44,11 @@ int	main(int argc, char *argv[])
 	if (argc > 3 && argv[3])
 		p.y = ft_atoi(argv[3]);
 
-	init_mlx(&m);
-	init_map_data(&m, &p, argv[1]);
-	
+	print_controls();
+	init_mlx(&m, argv[1]);
+	init_map_data(&m, &p);
 	render_grid(&m, m.grid);
 	mlx_put_image_to_window(m.mlx, m.win, m.img, 0, 0);
-	
-	// mlx_key_hook(m.win, key_hook, &m);
 	mlx_mouse_hook(m.win, mouse_hook, &m);
 	mlx_hook(m.win, ON_KEYDOWN, X_KEYPRESS, &set_painting, &m);
 	mlx_hook(m.win, ON_KEYUP, X_KEYRELEASE, &release_painting, &m);

@@ -6,7 +6,7 @@
 /*   By: msoria-j <msoria-j@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 08:31:43 by msoria-j          #+#    #+#             */
-/*   Updated: 2024/01/07 10:40:53 by msoria-j         ###   ########.fr       */
+/*   Updated: 2024/01/07 14:36:11 by msoria-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,21 +15,29 @@
 int	close_mlx(t_mlx *m)
 {
 	free_map(m->map);
-	mlx_destroy_window(m->mlx, m->win);
+	free(m->map_name);
+	if (m->mlx && m->img)
+		mlx_destroy_image(m->mlx, m->img);
+	for (int i = 0; i < MAX_SQUARES; i++) {
+		if (m->squares[i].img)
+			mlx_destroy_image(m->mlx, m->squares[i].img);
+	}
+	if (m->win)
+		mlx_destroy_window(m->mlx, m->win);
 	free(m->mlx);
 	exit(EXIT_SUCCESS);
 }
 
-int	key_hook(int key_code, t_mlx *m)
+/* int	key_hook(int key_code, t_mlx *m)
 {
 	if (key_code == XK_ESCAPE)
 		close_mlx(m);
 	if (key_code == XK_UP)
-		m->painting = 4;
-	/* if (key_code == XK_W)
-		m->painting = 1; */
+		m->painting = P_NORTH;
+	if (key_code == XK_W)
+		m->painting = P_WALL;
 	return (0);
-}
+} */
 
 int	mouse_hook(int button, int x, int y, t_mlx *m)
 {
@@ -39,7 +47,7 @@ int	mouse_hook(int button, int x, int y, t_mlx *m)
 	if ((x < MARGIN || y < MARGIN)
 		|| (x > SCREEN_WIDTH - MARGIN || y > SCREEN_HEIGHT - MARGIN))
 		return 1;
-	(void)button;
+
 	if (button == 1)
 		m->map[gy][gx] = '1';
 	else if (button == 3)
@@ -54,20 +62,33 @@ int	mouse_hook(int button, int x, int y, t_mlx *m)
 /**
  * @todo check leaks on exit()
   */
-void	init_mlx(t_mlx *m)
+void	init_mlx(t_mlx *m, char *path)
 {
+	char	*title = ft_strjoin("cub3D Map Editor by msoria-j - ", path);
+
+	// init to NULL to avoid free errors
+	m->mlx = NULL;
+	m->win = NULL;
+	m->img = NULL;
+	for (int i = 0; i < MAX_SQUARES; i++)
+		m->squares[i].img = NULL;
+	m->map = NULL;
+	m->map_name = NULL;
+
+	m->argv = path;
+	m->map_name = title;
 	m->mlx = mlx_init();
 	if (m->mlx == NULL)
-		exit (err_mlx());
+		exit (err_mlx(m));
 	m->win = mlx_new_window(m->mlx, SCREEN_WIDTH, SCREEN_HEIGHT, \
-		"cub3D Map Editor by msoria-j");
+		title);
 	if (m->win == NULL)
-		exit(err_mlx());
+		exit(err_mlx(m));
 	m->img = mlx_new_image(m->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
 	if (m->img == NULL)
-		exit(err_mlx());
+		exit(err_mlx(m));
 	m->addr = mlx_get_data_addr(m->img, &m->bpp, &m->sl, &m->endian);
-	m->painting = 0;
+	m->painting = P_NONE;
 }
 
 t_img	init_square_img(t_mlx *m, int index)
@@ -78,7 +99,7 @@ t_img	init_square_img(t_mlx *m, int index)
 	int		color[MAX_SQUARES] = {COLOR_WALL, COLOR_FLOOR, COLOR_PLAYER};
 
 	sqr.img = mlx_new_image(m->mlx, m->grid.step_x, m->grid.step_y);
-	sqr.addr = mlx_get_data_addr
+	sqr.addr = mlx_get_data_addr \
 		(sqr.img, &sqr.bpp, &sqr.sl, &sqr.endian);
 	for (int y = 0; y < m->grid.step_y - 2; y++)
 	{

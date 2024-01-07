@@ -6,7 +6,7 @@
 /*   By: msoria-j <msoria-j@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 08:27:55 by msoria-j          #+#    #+#             */
-/*   Updated: 2024/01/07 10:28:48 by msoria-j         ###   ########.fr       */
+/*   Updated: 2024/01/07 14:36:44 by msoria-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@
 #  define XK_LEFT		0xff51
 #  define XK_RIGHT		0xff53
 # elif __APPLE__
-#  include "minilibx_opengl/mlx.h"			// MLX for Mac
+#  include "minilibx_opengl/mlx.h"	// MLX for Mac
 #  define XK_ESCAPE 	0x35
 #  define XK_W 			0x0d
 #  define XK_A 			0x00
@@ -44,6 +44,7 @@
 #  define XK_D 			0x02
 #  define XK_Q 			0x0c
 #  define XK_E 			0x0e
+#  define XK_F 			0x03
 #  define XK_P 			0x23
 #  define XK_UP			0x7e
 #  define XK_DOWN		0x7d
@@ -64,8 +65,8 @@
 # define COLOR_PLAYER	0X228B22
 # define SCREEN_WIDTH 	800.0
 # define SCREEN_HEIGHT	800.0
-# define MAX_SQUARES	3
-# define MARGIN			0			// not used yet
+# define MAX_SQUARES	3			// wall, floor, player
+# define MARGIN			0			// deprecated
 
 /* Events and values for mlx_hook */
 # define ON_KEYDOWN			2
@@ -80,35 +81,11 @@
 # define X_POINTERMOTION	64		// (1L << 6)
 # define X_MASK				131072	// (1L << 17), for Linux
 
-typedef struct s_mlx	t_mlx;
-
 typedef struct s_point
 {
-	int			x;
-	int			y;
+	int		x;
+	int		y;
 }				t_point;
-
-// the FOV is 2 * atan(0.66/1.0)=66°
-typedef struct s_player
-{
-	t_mlx		*m;
-
-	double		pos_x;
-	double		pos_y;
-	double		dir_x;
-	double		dir_y;
-	double		plane_x;
-	double		plane_y;
-	double		width;
-	double		height;
-
-	int			motion_ns;
-	int			motion_ew;
-	int			motion_rot;
-
-	char		dir;
-	char		**map;
-}				t_player;
 
 typedef struct s_grid
 {
@@ -120,26 +97,7 @@ typedef struct s_grid
 	int		end_y;
 }				t_grid;
 
-typedef struct s_wall
-{
-	void	*img;
-	void	*addr;
-	
-	int		bpp;
-	int		sl;
-	int		endian;
-}				t_wall;
-
-typedef struct s_floor
-{
-	void	*img;
-	void	*addr;
-	
-	int		bpp;
-	int		sl;
-	int		endian;
-}				t_floor;
-
+// square images structure
 typedef struct s_img
 {
 	void	*img;
@@ -150,7 +108,7 @@ typedef struct s_img
 	int		endian;
 }				t_img;
 
-/* minilibx structure */
+// minilibx structure
 typedef struct s_mlx
 {
 	void	*mlx;
@@ -162,43 +120,51 @@ typedef struct s_mlx
 	int		sl;
 	int		endian;
 
-	// t_wall	wall;
-	// t_floor	floor;
-	t_point	cur;					// current mouse position
 	t_grid	grid;
-	t_img	squares[MAX_SQUARES];
+	t_img	squares[MAX_SQUARES];	// wall, floor, player
 
 	char	**map;
-	char	*argv;
-	int		painting;
+	char	*argv;					// the map name provided
+	char	*map_name;
+	int		painting;				// flag for different square types
 	int		fd;
 }				t_mlx;
+
+// painting mode flags
+enum e_paintings {
+	P_NONE		= 0,
+	P_WALL		= 1,
+	P_GROUND	= 2,
+	P_FLOOD		= 3,
+	P_NORTH		= 4,
+	P_SOUTH		= 5,
+	P_WEST		= 6,
+	P_EAST		= 7,
+	P_SPACE		= 8
+};
 
 /* Functions prototipes */
 int		mouse_hook(int button, int x, int y, t_mlx *m);
 int		release_painting(int key_code, t_mlx *m);
 int		set_painting(int key_code, t_mlx *m);
 int		render_loop(int x, int y, t_mlx *m);
-int		key_hook(int key_code, t_mlx *m);
 int		render_frame(t_mlx *m);
 int		err_arg_number(void);
 int		err_file(char *file);
 int		close_mlx(t_mlx *m);
-int		is_space(char c);
-int		err_mlx(void);
+int		err_mlx(t_mlx *m);
 
 void	flood_fill(char **tab, t_point size, t_point begin);
+void	init_map_data(t_mlx *m, t_point *p);
 void	print_pixel(t_mlx *m, t_point p, int color);
 void	render_grid(t_mlx *m, t_grid grid);
+void	init_mlx(t_mlx *m, char *path);
 void	print_map(char **map, int fd);
 void	free_map(char **map);
-void	init_mlx(t_mlx *m);
 
 char	**create_map(int rows, int cols);
 
-t_wall	init_wall_img(t_mlx *m);
-t_floor	init_floor_img(t_mlx *m);
-t_grid	init_grid(int x, int y);
 t_img	init_square_img(t_mlx *m, int index);
+t_grid	init_grid(int x, int y);
 
 #endif /* FT_CUB_EDITOR_H */
