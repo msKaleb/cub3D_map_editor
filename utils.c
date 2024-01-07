@@ -6,21 +6,21 @@
 /*   By: msoria-j <msoria-j@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 08:41:50 by msoria-j          #+#    #+#             */
-/*   Updated: 2024/01/07 00:18:36 by msoria-j         ###   ########.fr       */
+/*   Updated: 2024/01/07 09:50:08 by msoria-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_cub_editor.h"
 
-int	is_space(char c)
+/* int	is_space(char c)
 {
 	if (c == ' ' || (c > 8 && c < 14))
 		return (1);
 	else
 		return (0);
-}
+} */
 
-void	trim_non_ascii(char **tab, int rows)
+/* void	trim_non_ascii(char **tab, int rows)
 {
 	char	*tmp;
 	int		i;
@@ -43,7 +43,7 @@ void	trim_non_ascii(char **tab, int rows)
 		j = -1;
 		k = 0;
 	}
-}
+} */
 
 void	free_map(char **map)
 {
@@ -76,5 +76,3 @@ void	print_map(char **map, int fd)
 	ft_fprintf(fd, "\n");
 	close(fd);
 }
-
-

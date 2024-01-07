@@ -6,7 +6,7 @@
 /*   By: msoria-j <msoria-j@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 08:27:55 by msoria-j          #+#    #+#             */
-/*   Updated: 2024/01/07 00:04:17 by msoria-j         ###   ########.fr       */
+/*   Updated: 2024/01/07 10:28:48 by msoria-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,11 @@
 # define COLOR_WALL 	0x4169E1
 # define COLOR_SPACE	0x000000
 # define COLOR_FLOOR	0x808080
+# define COLOR_PLAYER	0X228B22
 # define SCREEN_WIDTH 	800.0
 # define SCREEN_HEIGHT	800.0
-# define MARGIN			0
+# define MAX_SQUARES	3
+# define MARGIN			0			// not used yet
 
 /* Events and values for mlx_hook */
 # define ON_KEYDOWN			2
@@ -138,6 +140,16 @@ typedef struct s_floor
 	int		endian;
 }				t_floor;
 
+typedef struct s_img
+{
+	void	*img;
+	void	*addr;
+	
+	int		bpp;
+	int		sl;
+	int		endian;
+}				t_img;
+
 /* minilibx structure */
 typedef struct s_mlx
 {
@@ -150,9 +162,12 @@ typedef struct s_mlx
 	int		sl;
 	int		endian;
 
+	// t_wall	wall;
+	// t_floor	floor;
+	t_point	cur;					// current mouse position
 	t_grid	grid;
-	t_wall	wall;
-	t_floor	floor;
+	t_img	squares[MAX_SQUARES];
+
 	char	**map;
 	char	*argv;
 	int		painting;
@@ -184,5 +199,6 @@ char	**create_map(int rows, int cols);
 t_wall	init_wall_img(t_mlx *m);
 t_floor	init_floor_img(t_mlx *m);
 t_grid	init_grid(int x, int y);
+t_img	init_square_img(t_mlx *m, int index);
 
 #endif /* FT_CUB_EDITOR_H */
