@@ -6,7 +6,7 @@
 /*   By: msoria-j <msoria-j@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 08:33:40 by msoria-j          #+#    #+#             */
-/*   Updated: 2024/01/08 12:38:57 by msoria-j         ###   ########.fr       */
+/*   Updated: 2024/01/08 13:35:28 by msoria-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	print_pixel(t_mlx *m, t_point p, int color)
 
 	if (p.x < 0 || p.y < 0)
 		return ;
-	if (p.x > SCREEN_WIDTH || p.y > SCREEN_HEIGHT)
+	if (p.x > SCREEN_WIDTH || p.y > SCREEN_HEIGHT + BANNER)
 		return ;
 	offset = (p.y * m->sl) + (p.x * (m->bpp / 8));
 	ptr = m->addr + offset;
@@ -56,7 +56,7 @@ void	print_direction(t_mlx *m, t_point p, char c)
 		break;
 	}
 	mlx_put_image_to_window(m->mlx, m->win, m->squares[2].img, p.x + 1, p.y + BANNER + 1);
-	mlx_string_put(m->mlx, m->win, 20, BANNER - 3, COLOR_STRING, orientation);
+	mlx_string_put(m->mlx, m->win, 20, BANNER - 5, COLOR_STRING, orientation);
 	free(orientation);
 }
 
@@ -86,19 +86,14 @@ int	set_painting(int key_code, t_mlx *m)
 		m->painting = P_GROUND;
 	else if (key_code == XK_D)
 		m->painting = P_SPACE;
-	else if (key_code == XK_Q) {
-		m->fd = open(m->argv, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		if (m->fd < 0)
-			exit(err_file(m->argv));
-		print_map(m->map, m->fd);
-	}
 	return (0);
 }
 
 // key up events
 int	release_painting(int key_code, t_mlx *m)
 {
-	int	x, y;
+	char	*saved_text;
+	int		x, y;
 
 	if (key_code == XK_W || key_code == XK_S)
 		m->painting = P_NONE;
@@ -112,6 +107,16 @@ int	release_painting(int key_code, t_mlx *m)
 		m->painting = P_WEST;
 	else if (key_code == XK_RIGHT) // place the character E
 		m->painting = P_EAST;
+	else if (key_code == XK_Q) {
+		m->fd = open(m->argv, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		if (m->fd < 0)
+			exit(err_file(m->argv));
+		print_map(m->map, m->fd);
+		saved_text = ft_strjoin("Map saved to ", m->argv);
+		mlx_string_put(m->mlx, m->win, SCREEN_WIDTH - (SCREEN_WIDTH / 3), \
+			BANNER - 5, COLOR_STRING, saved_text);
+		free(saved_text);
+	}
 	mlx_mouse_get_pos(m->mlx, m->win, &x, &y);
 	render_loop(x, y, m);
 	return (0);
@@ -143,8 +148,8 @@ void	render_grid(t_mlx *m, t_grid grid)
 	for (int x = MARGIN; x < grid.end_x; x++) {
 		for (int y = MARGIN; y <= grid.end_y; y += grid.step_y) {
 			print_pixel(m, (t_point){x, y}, COLOR_GRID);
-			if ((y + grid.step_y) >= (SCREEN_HEIGHT + BANNER))
-				print_pixel(m, (t_point){x, SCREEN_HEIGHT - BANNER - 1}, COLOR_GRID);
+			if ((y + grid.step_y) >= (SCREEN_HEIGHT))
+				print_pixel(m, (t_point){x, SCREEN_HEIGHT - 1}, COLOR_GRID);
 		}
 	}
 	// vertical lines
@@ -184,8 +189,8 @@ int	render_loop(int x, int y, t_mlx *m)
 	int	gx = (x - MARGIN) / m->grid.step_x;
 	int	gy = (y - MARGIN - BANNER) / m->grid.step_y;
 
-	if (m->painting == P_NONE || (x < MARGIN || y < MARGIN)
-		|| (x > SCREEN_WIDTH - MARGIN || y > SCREEN_HEIGHT - MARGIN))
+	if (m->painting == P_NONE || (x < MARGIN || y < BANNER - MARGIN)
+		|| (x > SCREEN_WIDTH - MARGIN || y > SCREEN_HEIGHT + BANNER - MARGIN))
 		return 1;
 
 	if (gx >= m->grid.size_x)

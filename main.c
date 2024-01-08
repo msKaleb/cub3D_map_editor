@@ -6,7 +6,7 @@
 /*   By: msoria-j <msoria-j@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 08:28:03 by msoria-j          #+#    #+#             */
-/*   Updated: 2024/01/08 12:36:02 by msoria-j         ###   ########.fr       */
+/*   Updated: 2024/01/08 13:21:49 by msoria-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,16 @@
 
 void	print_controls(void)
 {
-	ft_fprintf(1, "Left click: paint a wall\n");
-	ft_fprintf(1, "Middle click: delete a square\n");
-	ft_fprintf(1, "Right click: paint one ground square\n");
-	ft_fprintf(1, "Hold W + move mouse: paint walls\n");
-	ft_fprintf(1, "Hold S + move mouse: paint ground\n");
-	ft_fprintf(1, "Hold D + move mouse: delete square\n");
-	ft_fprintf(1, "Press F: ground flood fill\n");
-	ft_fprintf(1, "Press Arrow Keys: place the player (N, S, W, E)\n");
-	ft_fprintf(1, "Press Q: save map (with default colors and texture paths)\n");
+	ft_fprintf(1, "\nControls:\n");
+	ft_fprintf(1, "\tLeft click: paint a single wall square\n");
+	ft_fprintf(1, "\tRight click: paint a single floor square\n");
+	ft_fprintf(1, "\tMiddle click: delete a single square\n\n");
+	ft_fprintf(1, "\tHold W + move mouse: paint walls\n");
+	ft_fprintf(1, "\tHold S + move mouse: paint floor\n");
+	ft_fprintf(1, "\tHold D + move mouse: delete squares\n\n");
+	ft_fprintf(1, "\tArrow Keys: place the player (N, S, W, E)\n\n");
+	ft_fprintf(1, "\tF: Fill the area with floor squares\n");
+	ft_fprintf(1, "\tQ: save map (with default colors for floor and ceiling and texture paths)\n");
 }
 
 // color = (alpha << 24) + (red << 16) + (green << 8) + (blue);
@@ -37,12 +38,13 @@ int	main(int argc, char *argv[])
 	p.y = 10;
 
 	// check arguments
-	if (argc < 2)
+	if (argc < 2 || ft_strcmp(argv[1], "--help") == 0)
 		return (err_arg_number());
 	if ( argc > 2 && argv[2])
 		p.x = ft_atoi(argv[2]);
-	if (argc > 3 && argv[3])
-		p.y = ft_atoi(argv[3]);
+	p.y = p.x;
+	/* if (argc > 3 && argv[3])
+		p.y = ft_atoi(argv[3]); */
 
 	print_controls();
 	init_mlx(&m, argv[1]);

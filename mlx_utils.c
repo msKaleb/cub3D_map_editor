@@ -6,7 +6,7 @@
 /*   By: msoria-j <msoria-j@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 08:31:43 by msoria-j          #+#    #+#             */
-/*   Updated: 2024/01/08 12:29:57 by msoria-j         ###   ########.fr       */
+/*   Updated: 2024/01/08 12:43:46 by msoria-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	mouse_hook(int button, int x, int y, t_mlx *m)
 	int	gy = (y - MARGIN - BANNER) / m->grid.step_y;
 
 	if ((x < MARGIN || y < MARGIN + BANNER)
-		|| (x > SCREEN_WIDTH - MARGIN || y > SCREEN_HEIGHT - MARGIN))
+		|| (x > SCREEN_WIDTH - MARGIN || y > SCREEN_HEIGHT + BANNER - MARGIN))
 		return 1;
 
 	if (gx >= m->grid.size_x)
@@ -85,7 +85,7 @@ void	init_mlx(t_mlx *m, char *path)
 	m->mlx = mlx_init();
 	if (m->mlx == NULL)
 		exit (err_mlx(m));
-	m->win = mlx_new_window(m->mlx, SCREEN_WIDTH, SCREEN_HEIGHT, \
+	m->win = mlx_new_window(m->mlx, SCREEN_WIDTH, SCREEN_HEIGHT + BANNER, \
 		title);
 	if (m->win == NULL)
 		exit(err_mlx(m));

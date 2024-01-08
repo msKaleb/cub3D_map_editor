@@ -6,7 +6,7 @@
 /*   By: msoria-j <msoria-j@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 08:27:55 by msoria-j          #+#    #+#             */
-/*   Updated: 2024/01/08 12:21:03 by msoria-j         ###   ########.fr       */
+/*   Updated: 2024/01/08 13:16:31 by msoria-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,6 +165,7 @@ void	render_grid(t_mlx *m, t_grid grid);
 void	init_mlx(t_mlx *m, char *path);
 void	print_map(char **map, int fd);
 void	free_map(char **map);
+void	print_controls(void);
 
 char	**create_map(int rows, int cols);
 
