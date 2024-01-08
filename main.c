@@ -6,7 +6,7 @@
 /*   By: msoria-j <msoria-j@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 08:28:03 by msoria-j          #+#    #+#             */
-/*   Updated: 2024/01/07 14:50:48 by msoria-j         ###   ########.fr       */
+/*   Updated: 2024/01/08 12:36:02 by msoria-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@ int	main(int argc, char *argv[])
 	init_mlx(&m, argv[1]);
 	init_map_data(&m, &p);
 	render_grid(&m, m.grid);
-	mlx_put_image_to_window(m.mlx, m.win, m.img, 0, 0);
+	mlx_put_image_to_window(m.mlx, m.win, m.img, 0, BANNER); // put the main image
+	mlx_put_image_to_window(m.mlx, m.win, m.banner.img, 0, 0); // put the banner
 	mlx_mouse_hook(m.win, mouse_hook, &m);
 	mlx_hook(m.win, ON_KEYDOWN, X_KEYPRESS, &set_painting, &m);
 	mlx_hook(m.win, ON_KEYUP, X_KEYRELEASE, &release_painting, &m);

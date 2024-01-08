@@ -6,7 +6,7 @@
 /*   By: msoria-j <msoria-j@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 08:27:55 by msoria-j          #+#    #+#             */
-/*   Updated: 2024/01/07 14:36:44 by msoria-j         ###   ########.fr       */
+/*   Updated: 2024/01/08 12:21:03 by msoria-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,13 @@
 # define COLOR_SPACE	0x000000
 # define COLOR_FLOOR	0x808080
 # define COLOR_PLAYER	0X228B22
-# define SCREEN_WIDTH 	800.0
-# define SCREEN_HEIGHT	800.0
+# define COLOR_STRING	0XECE58A
+# define COLOR_BANNER	0X0B3846
+# define SCREEN_WIDTH 	800
+# define SCREEN_HEIGHT	800
 # define MAX_SQUARES	3			// wall, floor, player
 # define MARGIN			0			// deprecated
+# define BANNER			20			// blank space to write some info
 
 /* Events and values for mlx_hook */
 # define ON_KEYDOWN			2
@@ -122,6 +125,7 @@ typedef struct s_mlx
 
 	t_grid	grid;
 	t_img	squares[MAX_SQUARES];	// wall, floor, player
+	t_img	banner;
 
 	char	**map;
 	char	*argv;					// the map name provided

@@ -6,7 +6,7 @@
 /*   By: msoria-j <msoria-j@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 20:49:26 by msoria-j          #+#    #+#             */
-/*   Updated: 2024/01/07 13:45:13 by msoria-j         ###   ########.fr       */
+/*   Updated: 2024/01/08 12:38:39 by msoria-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,32 @@ char	**create_map(int rows, int cols)
 	return (map);
 }
 
+t_img	create_banner(t_mlx *m)
+{
+	t_img	banner;
+	void	*banner_ptr;
+	int		offset;
+
+	banner.img = mlx_new_image(m->mlx, SCREEN_WIDTH, BANNER);
+	banner.addr = mlx_get_data_addr \
+		(banner.img, &banner.bpp, &banner.sl, &banner.endian);
+	for (int y = 0; y < BANNER - 2; y++)
+	{
+		for (int x = 0; x < SCREEN_WIDTH; x++)
+		{
+			offset = (y * banner.sl) + (x * (banner.bpp / 8));
+			banner_ptr = banner.addr + offset;
+			*(unsigned int *)banner_ptr = mlx_get_color_value(m->mlx, COLOR_BANNER);
+		}
+	}
+	return (banner);
+}
+
 void	init_map_data(t_mlx *m, t_point *p)
 {
 	m->map = create_map(p->y, p->x);
 	m->grid = init_grid(p->x, p->y);
 	for (int i = 0; i < MAX_SQUARES; i++)
 		m->squares[i] = init_square_img(m, i);
+	m->banner = create_banner(m);
 }

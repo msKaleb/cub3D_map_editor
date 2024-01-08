@@ -6,7 +6,7 @@
 /*   By: msoria-j <msoria-j@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 08:31:43 by msoria-j          #+#    #+#             */
-/*   Updated: 2024/01/07 14:36:11 by msoria-j         ###   ########.fr       */
+/*   Updated: 2024/01/08 12:29:57 by msoria-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,16 @@ int	close_mlx(t_mlx *m)
 int	mouse_hook(int button, int x, int y, t_mlx *m)
 {
 	int	gx = (x - MARGIN) / m->grid.step_x;
-	int	gy = (y - MARGIN) / m->grid.step_y;
+	int	gy = (y - MARGIN - BANNER) / m->grid.step_y;
 
-	if ((x < MARGIN || y < MARGIN)
+	if ((x < MARGIN || y < MARGIN + BANNER)
 		|| (x > SCREEN_WIDTH - MARGIN || y > SCREEN_HEIGHT - MARGIN))
 		return 1;
+
+	if (gx >= m->grid.size_x)
+		gx = m->grid.size_x - 1;
+	if (gy >= m->grid.size_y)
+		gy = m->grid.size_y - 1;
 
 	if (button == 1)
 		m->map[gy][gx] = '1';
