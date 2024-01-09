@@ -6,7 +6,7 @@
 /*   By: msoria-j <msoria-j@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 08:33:40 by msoria-j          #+#    #+#             */
-/*   Updated: 2024/01/08 13:35:28 by msoria-j         ###   ########.fr       */
+/*   Updated: 2024/01/10 00:35:43 by msoria-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,13 +148,13 @@ void	render_grid(t_mlx *m, t_grid grid)
 	for (int x = MARGIN; x < grid.end_x; x++) {
 		for (int y = MARGIN; y <= grid.end_y; y += grid.step_y) {
 			print_pixel(m, (t_point){x, y}, COLOR_GRID);
-			if ((y + grid.step_y) >= (SCREEN_HEIGHT))
+			if ((y + grid.step_y) >= (grid.end_y))
 				print_pixel(m, (t_point){x, SCREEN_HEIGHT - 1}, COLOR_GRID);
 		}
 	}
 	// vertical lines
 	for (int x = MARGIN; x <= grid.end_x; x += grid.step_x) {
-		for (int y = MARGIN; y < grid.end_y; y++) {
+		for (int y = MARGIN; y < grid.end_y; y++) {			
 			if (x >= SCREEN_WIDTH)
 				x = SCREEN_WIDTH - 1;			
 			print_pixel(m, (t_point){x, y}, COLOR_GRID);

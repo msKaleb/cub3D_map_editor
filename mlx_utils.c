@@ -6,7 +6,7 @@
 /*   By: msoria-j <msoria-j@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 08:31:43 by msoria-j          #+#    #+#             */
-/*   Updated: 2024/01/08 12:43:46 by msoria-j         ###   ########.fr       */
+/*   Updated: 2024/01/10 00:20:52 by msoria-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,10 @@ int	mouse_hook(int button, int x, int y, t_mlx *m)
 	int	gx = (x - MARGIN) / m->grid.step_x;
 	int	gy = (y - MARGIN - BANNER) / m->grid.step_y;
 
+	/* if ((x < MARGIN || y < MARGIN + BANNER)
+		|| (x > SCREEN_WIDTH - MARGIN || y > SCREEN_HEIGHT + BANNER - MARGIN)) */
 	if ((x < MARGIN || y < MARGIN + BANNER)
-		|| (x > SCREEN_WIDTH - MARGIN || y > SCREEN_HEIGHT + BANNER - MARGIN))
+		|| x > m->grid.end_x || y > m->grid.end_y + BANNER)
 		return 1;
 
 	if (gx >= m->grid.size_x)

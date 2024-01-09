@@ -6,7 +6,7 @@
 /*   By: msoria-j <msoria-j@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 20:49:26 by msoria-j          #+#    #+#             */
-/*   Updated: 2024/01/08 12:38:39 by msoria-j         ###   ########.fr       */
+/*   Updated: 2024/01/10 00:30:52 by msoria-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ t_grid	init_grid(int x, int y)
 	grid.step_y = (SCREEN_HEIGHT - MARGIN * 2) / grid.size_y;
 	grid.end_x = (SCREEN_WIDTH - MARGIN);
 	grid.end_y = (SCREEN_HEIGHT - MARGIN);
+	grid.end_x = grid.step_x * grid.size_x;
+	grid.end_y = grid.step_y * grid.size_y;
 	return (grid);
 }
 
