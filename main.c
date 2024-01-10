@@ -6,7 +6,7 @@
 /*   By: msoria-j <msoria-j@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 08:28:03 by msoria-j          #+#    #+#             */
-/*   Updated: 2024/01/08 13:21:49 by msoria-j         ###   ########.fr       */
+/*   Updated: 2024/01/10 09:41:54 by msoria-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ int	main(int argc, char *argv[])
 		p.y = ft_atoi(argv[3]); */
 
 	print_controls();
+	m.grid = init_grid(p.x, p.y);
 	init_mlx(&m, argv[1]);
 	init_map_data(&m, &p);
 	render_grid(&m, m.grid);

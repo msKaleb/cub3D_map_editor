@@ -6,7 +6,7 @@
 /*   By: msoria-j <msoria-j@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 08:33:40 by msoria-j          #+#    #+#             */
-/*   Updated: 2024/01/10 00:35:43 by msoria-j         ###   ########.fr       */
+/*   Updated: 2024/01/10 09:47:53 by msoria-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	print_pixel(t_mlx *m, t_point p, int color)
 
 	if (p.x < 0 || p.y < 0)
 		return ;
-	if (p.x > SCREEN_WIDTH || p.y > SCREEN_HEIGHT + BANNER)
+	if (p.x > m->grid.end_x || p.y > m->grid.end_x + BANNER)
 		return ;
 	offset = (p.y * m->sl) + (p.x * (m->bpp / 8));
 	ptr = m->addr + offset;
@@ -113,7 +113,7 @@ int	release_painting(int key_code, t_mlx *m)
 			exit(err_file(m->argv));
 		print_map(m->map, m->fd);
 		saved_text = ft_strjoin("Map saved to ", m->argv);
-		mlx_string_put(m->mlx, m->win, SCREEN_WIDTH - (SCREEN_WIDTH / 3), \
+		mlx_string_put(m->mlx, m->win, m->grid.end_x - (m->grid.end_x / 3), \
 			BANNER - 5, COLOR_STRING, saved_text);
 		free(saved_text);
 	}
@@ -133,7 +133,7 @@ int	render_frame(t_mlx *m)
 {
 	mlx_destroy_image(m->mlx, m->img); // main image of the whole map
 	// mlx_destroy_image(m->mlx, m->banner.img); // the banner on the upper part of the screen
-	m->img = mlx_new_image(m->mlx, SCREEN_WIDTH, SCREEN_HEIGHT); // recycle the main image
+	m->img = mlx_new_image(m->mlx, m->grid.end_x, m->grid.end_x); // recycle the main image
 	// m->banner.img = mlx_new_image(m->mlx, SCREEN_WIDTH, BANNER); // recycle the banner image
 	render_grid(m, m->grid);
 	mlx_put_image_to_window(m->mlx, m->win, m->img, 0, BANNER); // put the main image
@@ -149,14 +149,14 @@ void	render_grid(t_mlx *m, t_grid grid)
 		for (int y = MARGIN; y <= grid.end_y; y += grid.step_y) {
 			print_pixel(m, (t_point){x, y}, COLOR_GRID);
 			if ((y + grid.step_y) >= (grid.end_y))
-				print_pixel(m, (t_point){x, SCREEN_HEIGHT - 1}, COLOR_GRID);
+				print_pixel(m, (t_point){x, m->grid.end_x - 1}, COLOR_GRID);
 		}
 	}
 	// vertical lines
 	for (int x = MARGIN; x <= grid.end_x; x += grid.step_x) {
 		for (int y = MARGIN; y < grid.end_y; y++) {			
-			if (x >= SCREEN_WIDTH)
-				x = SCREEN_WIDTH - 1;			
+			if (x >= m->grid.end_x)
+				x = m->grid.end_x - 1;			
 			print_pixel(m, (t_point){x, y}, COLOR_GRID);
 		}
 	}
@@ -190,7 +190,7 @@ int	render_loop(int x, int y, t_mlx *m)
 	int	gy = (y - MARGIN - BANNER) / m->grid.step_y;
 
 	if (m->painting == P_NONE || (x < MARGIN || y < BANNER - MARGIN)
-		|| (x > SCREEN_WIDTH - MARGIN || y > SCREEN_HEIGHT + BANNER - MARGIN))
+		|| (x > m->grid.end_x - MARGIN || y > m->grid.end_x + BANNER - MARGIN))
 		return 1;
 
 	if (gx >= m->grid.size_x)

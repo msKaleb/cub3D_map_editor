@@ -6,7 +6,7 @@
 /*   By: msoria-j <msoria-j@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 08:31:43 by msoria-j          #+#    #+#             */
-/*   Updated: 2024/01/10 00:20:52 by msoria-j         ###   ########.fr       */
+/*   Updated: 2024/01/10 09:43:21 by msoria-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,11 +87,11 @@ void	init_mlx(t_mlx *m, char *path)
 	m->mlx = mlx_init();
 	if (m->mlx == NULL)
 		exit (err_mlx(m));
-	m->win = mlx_new_window(m->mlx, SCREEN_WIDTH, SCREEN_HEIGHT + BANNER, \
+	m->win = mlx_new_window(m->mlx, m->grid.end_x, m->grid.end_y + BANNER, \
 		title);
 	if (m->win == NULL)
 		exit(err_mlx(m));
-	m->img = mlx_new_image(m->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
+	m->img = mlx_new_image(m->mlx, m->grid.end_x, m->grid.end_y);
 	if (m->img == NULL)
 		exit(err_mlx(m));
 	m->addr = mlx_get_data_addr(m->img, &m->bpp, &m->sl, &m->endian);

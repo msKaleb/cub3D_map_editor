@@ -6,7 +6,7 @@
 /*   By: msoria-j <msoria-j@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 08:27:55 by msoria-j          #+#    #+#             */
-/*   Updated: 2024/01/08 13:16:31 by msoria-j         ###   ########.fr       */
+/*   Updated: 2024/01/10 09:40:29 by msoria-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,8 @@
 # define COLOR_PLAYER	0X228B22
 # define COLOR_STRING	0XECE58A
 # define COLOR_BANNER	0X0B3846
-# define SCREEN_WIDTH 	800
-# define SCREEN_HEIGHT	800
+# define SCREEN_WIDTH 	800.0
+# define SCREEN_HEIGHT	800.0
 # define MAX_SQUARES	3			// wall, floor, player
 # define MARGIN			0			// deprecated
 # define BANNER			20			// blank space to write some info
