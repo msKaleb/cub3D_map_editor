@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cub_editor.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msoria-j <msoria-j@student.42urduliz.com>  +#+  +:+       +#+        */
+/*   By: msoria-j <msoria-j@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 08:27:55 by msoria-j          #+#    #+#             */
-/*   Updated: 2024/01/10 09:40:29 by msoria-j         ###   ########.fr       */
+/*   Updated: 2024/01/10 13:26:15 by msoria-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,7 @@ typedef struct s_mlx
 	int		sl;
 	int		endian;
 
+	t_point	cur;					// current mouse position
 	t_grid	grid;
 	t_img	squares[MAX_SQUARES];	// wall, floor, player
 	t_img	banner;

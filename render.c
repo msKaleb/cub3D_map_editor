@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msoria-j <msoria-j@student.42urduliz.com>  +#+  +:+       +#+        */
+/*   By: msoria-j <msoria-j@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 08:33:40 by msoria-j          #+#    #+#             */
-/*   Updated: 2024/01/10 09:47:53 by msoria-j         ###   ########.fr       */
+/*   Updated: 2024/01/10 13:25:20 by msoria-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,8 +117,10 @@ int	release_painting(int key_code, t_mlx *m)
 			BANNER - 5, COLOR_STRING, saved_text);
 		free(saved_text);
 	}
-	mlx_mouse_get_pos(m->mlx, m->win, &x, &y);
-	render_loop(x, y, m);
+	// mlx_mouse_get_pos(m->mlx, m->win, &x, &y); // 
+	// render_loop(m->cur.x, m->cur.y, m);
+	mlx_mouse_get_pos(m->win, &x, &y); // 
+	render_loop(m->cur.x, m->cur.y, m);
 	return (0);
 }
 
@@ -146,18 +148,20 @@ void	render_grid(t_mlx *m, t_grid grid)
 {
 	// horizontal lines
 	for (int x = MARGIN; x < grid.end_x; x++) {
-		for (int y = MARGIN; y <= grid.end_y; y += grid.step_y) {
+		for (int y = MARGIN; y < grid.end_y; y += grid.step_y) {
 			print_pixel(m, (t_point){x, y}, COLOR_GRID);
 			if ((y + grid.step_y) >= (grid.end_y))
 				print_pixel(m, (t_point){x, m->grid.end_x - 1}, COLOR_GRID);
 		}
 	}
 	// vertical lines
-	for (int x = MARGIN; x <= grid.end_x; x += grid.step_x) {
+	for (int x = MARGIN; x < grid.end_x; x += grid.step_x) {
 		for (int y = MARGIN; y < grid.end_y; y++) {			
-			if (x >= m->grid.end_x)
-				x = m->grid.end_x - 1;			
+			// if (x >= m->grid.end_x)
+			// 	x = m->grid.end_x - 1;
 			print_pixel(m, (t_point){x, y}, COLOR_GRID);
+			if ((x + grid.step_x) >= (grid.end_x))
+				print_pixel(m, (t_point){m->grid.end_x - 1, y}, COLOR_GRID);
 		}
 	}
 }
@@ -188,6 +192,9 @@ int	render_loop(int x, int y, t_mlx *m)
 {
 	int	gx = (x - MARGIN) / m->grid.step_x;
 	int	gy = (y - MARGIN - BANNER) / m->grid.step_y;
+
+	m->cur.x = x;
+	m->cur.y = y;
 
 	if (m->painting == P_NONE || (x < MARGIN || y < BANNER - MARGIN)
 		|| (x > m->grid.end_x - MARGIN || y > m->grid.end_x + BANNER - MARGIN))
