@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cub_editor.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msoria-j <msoria-j@student.42.fr>          +#+  +:+       +#+        */
+/*   By: msoria-j <msoria-j@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 08:27:55 by msoria-j          #+#    #+#             */
-/*   Updated: 2024/01/10 13:26:15 by msoria-j         ###   ########.fr       */
+/*   Updated: 2024/01/11 08:51:22 by msoria-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ typedef struct s_mlx
 	t_img	banner;
 
 	char	**map;
-	char	*argv;					// the map name provided
+	char	*argv;					// the provided map name
 	char	*map_name;
 	int		painting;				// flag for different square types
 	int		fd;
@@ -145,7 +145,8 @@ enum e_paintings {
 	P_SOUTH		= 5,
 	P_WEST		= 6,
 	P_EAST		= 7,
-	P_SPACE		= 8
+	P_SPACE		= 8,
+	P_DOOR		= 9
 };
 
 /* Functions prototipes */

@@ -6,7 +6,7 @@
 /*   By: msoria-j <msoria-j@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 08:28:03 by msoria-j          #+#    #+#             */
-/*   Updated: 2024/01/10 09:41:54 by msoria-j         ###   ########.fr       */
+/*   Updated: 2024/01/11 08:41:07 by msoria-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,10 @@ int	main(int argc, char *argv[])
 		return (err_arg_number());
 	if ( argc > 2 && argv[2])
 		p.x = ft_atoi(argv[2]);
+	// for now, square maps
+	// if (argc > 3 && argv[3])
+	// 	p.y = ft_atoi(argv[3]);
 	p.y = p.x;
-	/* if (argc > 3 && argv[3])
-		p.y = ft_atoi(argv[3]); */
 
 	print_controls();
 	m.grid = init_grid(p.x, p.y);

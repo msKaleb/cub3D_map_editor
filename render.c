@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msoria-j <msoria-j@student.42.fr>          +#+  +:+       +#+        */
+/*   By: msoria-j <msoria-j@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 08:33:40 by msoria-j          #+#    #+#             */
-/*   Updated: 2024/01/10 13:25:20 by msoria-j         ###   ########.fr       */
+/*   Updated: 2024/01/11 09:04:37 by msoria-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,12 +93,14 @@ int	set_painting(int key_code, t_mlx *m)
 int	release_painting(int key_code, t_mlx *m)
 {
 	char	*saved_text;
-	int		x, y;
+	// int		x, y;
 
 	if (key_code == XK_W || key_code == XK_S)
 		m->painting = P_NONE;
 	else if (key_code == XK_F)
 		m->painting = P_FLOOD;
+	// else if (key_code == XK_E)
+	// 	m->painting = P_DOOR;
 	else if (key_code == XK_UP)  // place the character N
 		m->painting = P_NORTH;
 	else if (key_code == XK_DOWN) // place the character S
@@ -119,7 +121,7 @@ int	release_painting(int key_code, t_mlx *m)
 	}
 	// mlx_mouse_get_pos(m->mlx, m->win, &x, &y); // 
 	// render_loop(m->cur.x, m->cur.y, m);
-	mlx_mouse_get_pos(m->win, &x, &y); // 
+	// mlx_mouse_get_pos(m->win, &x, &y); // 
 	render_loop(m->cur.x, m->cur.y, m);
 	return (0);
 }
@@ -209,6 +211,8 @@ int	render_loop(int x, int y, t_mlx *m)
 		m->map[gy][gx] = '1';
 	else if (m->painting == P_GROUND)
 		m->map[gy][gx] = '0';
+	else if (m->painting == P_DOOR)
+		m->map[gy][gx] = '2';
 	else if (m->painting == P_SPACE)
 		m->map[gy][gx] = ' ';
 	else if (m->painting == P_FLOOD && m->map[gy][gx] != '0')

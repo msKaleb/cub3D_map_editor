@@ -53,3 +53,4 @@ dkms.conf
 .vscode
 cub_editor
 *.bak
+*.cub

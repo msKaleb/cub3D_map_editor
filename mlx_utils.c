@@ -6,7 +6,7 @@
 /*   By: msoria-j <msoria-j@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 08:31:43 by msoria-j          #+#    #+#             */
-/*   Updated: 2024/01/10 09:43:21 by msoria-j         ###   ########.fr       */
+/*   Updated: 2024/01/11 08:44:56 by msoria-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,6 @@ int	mouse_hook(int button, int x, int y, t_mlx *m)
 	int	gx = (x - MARGIN) / m->grid.step_x;
 	int	gy = (y - MARGIN - BANNER) / m->grid.step_y;
 
-	/* if ((x < MARGIN || y < MARGIN + BANNER)
-		|| (x > SCREEN_WIDTH - MARGIN || y > SCREEN_HEIGHT + BANNER - MARGIN)) */
 	if ((x < MARGIN || y < MARGIN + BANNER)
 		|| x > m->grid.end_x || y > m->grid.end_y + BANNER)
 		return 1;
@@ -55,13 +53,12 @@ int	mouse_hook(int button, int x, int y, t_mlx *m)
 	if (gy >= m->grid.size_y)
 		gy = m->grid.size_y - 1;
 
-	if (button == 1)
+	if (button == 1)			// left click
 		m->map[gy][gx] = '1';
-	else if (button == 3)
+	else if (button == 3)		// right click
 		m->map[gy][gx] = '0';
-	else if (button == 2)
+	else if (button == 2)		// middle click
 		m->map[gy][gx] = ' ';
-	// ft_fprintf(1, "button: %d - x: %d - y: %d\n", button, gx, gy);
 	render_frame(m);
 	return 0;
 }
