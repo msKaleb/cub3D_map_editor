@@ -6,7 +6,7 @@
 /*   By: msoria-j <msoria-j@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 08:33:40 by msoria-j          #+#    #+#             */
-/*   Updated: 2024/01/11 09:04:37 by msoria-j         ###   ########.fr       */
+/*   Updated: 2024/01/11 10:18:10 by msoria-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	print_pixel(t_mlx *m, t_point p, int color)
 		return ;
 	if (p.x > m->grid.end_x || p.y > m->grid.end_x + BANNER)
 		return ;
-	offset = (p.y * m->sl) + (p.x * (m->bpp / 8));
+	offset = (p.y * m->sl) + (p.x * (m->bpp_div));
 	ptr = m->addr + offset;
 	*(unsigned int *)ptr = mlx_get_color_value(m->mlx, color);
 }
@@ -55,29 +55,34 @@ void	print_direction(t_mlx *m, t_point p, char c)
 	default:
 		break;
 	}
-	mlx_put_image_to_window(m->mlx, m->win, m->squares[2].img, p.x + 1, p.y + BANNER + 1);
+	mlx_put_image_to_window(m->mlx, m->win, m->squares[S_PLAYER].img, p.x + 1, p.y + BANNER + 1);
 	mlx_string_put(m->mlx, m->win, 20, BANNER - 5, COLOR_STRING, orientation);
 	free(orientation);
 }
 
+/**
+ * @brief put the appropiate tile on place
+  */
 void	print_square(t_mlx *m, int gx, int gy, char c)
 {
 	t_point	p;
 	
+	if (c == ' ')
+		return ;
+
 	p.x = gx * m->grid.step_x + MARGIN;
 	p.y = gy * m->grid.step_y + MARGIN;
 	
-	if (c == '1')
-		mlx_put_image_to_window(m->mlx, m->win, m->squares[0].img, p.x + 1, p.y + BANNER + 1);
-	if (c == '0')
-		mlx_put_image_to_window(m->mlx, m->win, m->squares[1].img, p.x + 1, p.y + BANNER + 1);
 	if (ft_strchr("NSEW", c))
 		print_direction(m, p, c);
+	else
+		mlx_put_image_to_window(m->mlx, m->win, m->squares[c - '0'].img, p.x + 1, p.y + BANNER + 1);
 }
 
 // key down events
 int	set_painting(int key_code, t_mlx *m)
 {
+	// printf("%d\n", key_code);
 	if (key_code == XK_ESCAPE)
 		close_mlx(m);
 	if (key_code == XK_W)
@@ -99,15 +104,15 @@ int	release_painting(int key_code, t_mlx *m)
 		m->painting = P_NONE;
 	else if (key_code == XK_F)
 		m->painting = P_FLOOD;
-	// else if (key_code == XK_E)
-	// 	m->painting = P_DOOR;
-	else if (key_code == XK_UP)  // place the character N
+	else if (key_code == XK_E)
+		m->painting = P_DOOR;
+	else if (key_code == XK_UP)		// place the character N
 		m->painting = P_NORTH;
-	else if (key_code == XK_DOWN) // place the character S
+	else if (key_code == XK_DOWN)	// place the character S
 		m->painting = P_SOUTH;
-	else if (key_code == XK_LEFT) // place the character W
+	else if (key_code == XK_LEFT)	// place the character W
 		m->painting = P_WEST;
-	else if (key_code == XK_RIGHT) // place the character E
+	else if (key_code == XK_RIGHT)	// place the character E
 		m->painting = P_EAST;
 	else if (key_code == XK_Q) {
 		m->fd = open(m->argv, O_WRONLY | O_CREAT | O_TRUNC, 0644);
@@ -186,21 +191,23 @@ char	place_player(char **map, int index)
 			}
 		i++;
 	}
-	// codes for player range from 4 to 7
-	return (player[index - 4]);
+	// codes for player range from 5 to 8
+	return (player[index - P_NORTH]);
 }
 
 int	render_loop(int x, int y, t_mlx *m)
 {
-	int	gx = (x - MARGIN) / m->grid.step_x;
-	int	gy = (y - MARGIN - BANNER) / m->grid.step_y;
+	int	gx;
+	int	gy;
 
 	m->cur.x = x;
 	m->cur.y = y;
-
 	if (m->painting == P_NONE || (x < MARGIN || y < BANNER - MARGIN)
 		|| (x > m->grid.end_x - MARGIN || y > m->grid.end_x + BANNER - MARGIN))
 		return 1;
+
+	gx = (x - MARGIN) / m->grid.step_x;
+	gy = (y - MARGIN - BANNER) / m->grid.step_y;
 
 	if (gx >= m->grid.size_x)
 		gx = m->grid.size_x - 1;
@@ -219,8 +226,10 @@ int	render_loop(int x, int y, t_mlx *m)
 		flood_fill(m->map, (t_point){m->grid.size_x, m->grid.size_x}, (t_point){gx, gy});
 	else if (m->painting >= P_NORTH && m->painting <= P_EAST)
 		m->map[gy][gx] = place_player(m->map, m->painting);
+	// reset painting mode
 	if (m->painting >= P_FLOOD && m->painting <= P_SPACE)
 		m->painting = P_NONE;
+	// printf("painting mode: %d\n", m->painting); // debugging
 	render_frame(m);
 	return 0;
 }

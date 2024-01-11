@@ -6,7 +6,7 @@
 /*   By: msoria-j <msoria-j@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 20:49:26 by msoria-j          #+#    #+#             */
-/*   Updated: 2024/01/10 09:45:30 by msoria-j         ###   ########.fr       */
+/*   Updated: 2024/01/11 10:11:38 by msoria-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,12 @@ t_img	create_banner(t_mlx *m)
 	banner.img = mlx_new_image(m->mlx, m->grid.end_x, BANNER);
 	banner.addr = mlx_get_data_addr \
 		(banner.img, &banner.bpp, &banner.sl, &banner.endian);
+	banner.bpp_div = banner.bpp / 8;
 	for (int y = 0; y < BANNER - 2; y++)
 	{
 		for (int x = 0; x < m->grid.end_x; x++)
 		{
-			offset = (y * banner.sl) + (x * (banner.bpp / 8));
+			offset = (y * banner.sl) + (x * (banner.bpp_div));
 			banner_ptr = banner.addr + offset;
 			*(unsigned int *)banner_ptr = mlx_get_color_value(m->mlx, COLOR_BANNER);
 		}

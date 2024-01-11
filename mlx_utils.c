@@ -6,7 +6,7 @@
 /*   By: msoria-j <msoria-j@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 08:31:43 by msoria-j          #+#    #+#             */
-/*   Updated: 2024/01/11 08:44:56 by msoria-j         ###   ########.fr       */
+/*   Updated: 2024/01/11 10:16:34 by msoria-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,30 +39,6 @@ int	close_mlx(t_mlx *m)
 	return (0);
 } */
 
-int	mouse_hook(int button, int x, int y, t_mlx *m)
-{
-	int	gx = (x - MARGIN) / m->grid.step_x;
-	int	gy = (y - MARGIN - BANNER) / m->grid.step_y;
-
-	if ((x < MARGIN || y < MARGIN + BANNER)
-		|| x > m->grid.end_x || y > m->grid.end_y + BANNER)
-		return 1;
-
-	if (gx >= m->grid.size_x)
-		gx = m->grid.size_x - 1;
-	if (gy >= m->grid.size_y)
-		gy = m->grid.size_y - 1;
-
-	if (button == 1)			// left click
-		m->map[gy][gx] = '1';
-	else if (button == 3)		// right click
-		m->map[gy][gx] = '0';
-	else if (button == 2)		// middle click
-		m->map[gy][gx] = ' ';
-	render_frame(m);
-	return 0;
-}
-
 /**
  * @todo check leaks on exit()
   */
@@ -92,6 +68,7 @@ void	init_mlx(t_mlx *m, char *path)
 	if (m->img == NULL)
 		exit(err_mlx(m));
 	m->addr = mlx_get_data_addr(m->img, &m->bpp, &m->sl, &m->endian);
+	m->bpp_div = m->bpp / 8;
 	m->painting = P_NONE;
 }
 
@@ -100,16 +77,18 @@ t_img	init_square_img(t_mlx *m, int index)
 	t_img	sqr;
 	void	*sqr_ptr;
 	int		offset;
-	int		color[MAX_SQUARES] = {COLOR_WALL, COLOR_FLOOR, COLOR_PLAYER};
+	// int		color[MAX_SQUARES] = {COLOR_WALL, COLOR_FLOOR, COLOR_PLAYER, COLOR_DOOR};
+	int		color[MAX_SQUARES] = {COLOR_FLOOR, COLOR_WALL, COLOR_DOOR, COLOR_PLAYER};
 
 	sqr.img = mlx_new_image(m->mlx, m->grid.step_x, m->grid.step_y);
 	sqr.addr = mlx_get_data_addr \
 		(sqr.img, &sqr.bpp, &sqr.sl, &sqr.endian);
+	sqr.bpp_div = sqr.bpp / 8;
 	for (int y = 0; y < m->grid.step_y - 2; y++)
 	{
 		for (int x = 0; x < m->grid.step_x - 2; x++)
 		{
-			offset = (y * sqr.sl) + (x * (sqr.bpp / 8));
+			offset = (y * sqr.sl) + (x * (sqr.bpp_div));
 			sqr_ptr = sqr.addr + offset;
 			*(unsigned int *)sqr_ptr = mlx_get_color_value(m->mlx, color[index]);
 			// ft_fprintf(1, "x: %d - y: %d\n", i, j);

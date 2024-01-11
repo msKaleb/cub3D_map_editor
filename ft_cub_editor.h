@@ -6,7 +6,7 @@
 /*   By: msoria-j <msoria-j@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 08:27:55 by msoria-j          #+#    #+#             */
-/*   Updated: 2024/01/11 08:51:22 by msoria-j         ###   ########.fr       */
+/*   Updated: 2024/01/11 10:09:22 by msoria-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,11 +63,12 @@
 # define COLOR_SPACE	0x000000
 # define COLOR_FLOOR	0x808080
 # define COLOR_PLAYER	0X228B22
+# define COLOR_DOOR		0X644117
 # define COLOR_STRING	0XECE58A
 # define COLOR_BANNER	0X0B3846
 # define SCREEN_WIDTH 	800.0
 # define SCREEN_HEIGHT	800.0
-# define MAX_SQUARES	3			// wall, floor, player
+# define MAX_SQUARES	4			// wall, floor, player, door
 # define MARGIN			0			// deprecated
 # define BANNER			20			// blank space to write some info
 
@@ -81,6 +82,8 @@
 # define ON_DESTROY			17
 # define X_KEYPRESS			1		// (1L << 0)
 # define X_KEYRELEASE		2		// (1L << 1)
+# define X_BUTTONPRESS		4		// (1L << 2)
+# define X_BUTTONRELEASE	8		// (1L << 3)
 # define X_POINTERMOTION	64		// (1L << 6)
 # define X_MASK				131072	// (1L << 17), for Linux
 
@@ -109,6 +112,8 @@ typedef struct s_img
 	int		bpp;
 	int		sl;
 	int		endian;
+
+	int		bpp_div;	// (bpp / 8)
 }				t_img;
 
 // minilibx structure
@@ -122,6 +127,8 @@ typedef struct s_mlx
 	int		bpp;
 	int		sl;
 	int		endian;
+
+	int		bpp_div;				// (bpp / 8)
 
 	t_point	cur;					// current mouse position
 	t_grid	grid;
@@ -141,15 +148,30 @@ enum e_paintings {
 	P_WALL		= 1,
 	P_GROUND	= 2,
 	P_FLOOD		= 3,
-	P_NORTH		= 4,
-	P_SOUTH		= 5,
-	P_WEST		= 6,
-	P_EAST		= 7,
-	P_SPACE		= 8,
-	P_DOOR		= 9
+	P_DOOR		= 4,
+	P_NORTH		= 5,
+	P_SOUTH		= 6,
+	P_WEST		= 7,
+	P_EAST		= 8,
+	P_SPACE		= 9
+};
+
+enum e_squares {
+	S_FLOOR		= 0,
+	S_WALL		= 1,
+	S_DOOR		= 2,
+	S_PLAYER	= 3
+};
+
+enum e_buttons {
+	B_LEFT		= 1,
+	B_MIDDLE	= 2,
+	B_RIGHT		= 3
 };
 
 /* Functions prototipes */
+// int		release_mouse_painting(int button, int x, int y, t_mlx *m);
+int		set_mouse_painting(int button, int x, int y, t_mlx *m);
 int		mouse_hook(int button, int x, int y, t_mlx *m);
 int		release_painting(int key_code, t_mlx *m);
 int		set_painting(int key_code, t_mlx *m);

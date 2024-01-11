@@ -6,7 +6,7 @@
 #    By: msoria-j <msoria-j@student.42urduliz.com>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/06 08:24:51 by msoria-j          #+#    #+#              #
-#    Updated: 2024/01/06 23:53:07 by msoria-j         ###   ########.fr        #
+#    Updated: 2024/01/11 10:15:13 by msoria-j         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,6 +37,7 @@ SRC		=	errors.c \
 			utils.c \
 			init.c \
 			flood_fill.c \
+			mouse_events.c \
 
 OBJ		=	$(SRC:.c=.o)
 
@@ -92,7 +93,7 @@ pre-build:
 			make -sC $(MLXDIR)
 				
 %.o: %.c
-	 		$(CC) $(CCOBJ) -g -O0
+	 		$(CC) $(CCOBJ) -g -O3
 
 $(NAME):	pre-build $(OBJ) $(OBJ_M)
 			$(CC) $(OBJ_M) $(OBJ) $(LIBFT) $(MLX) $(FLAGS) -o $(NAME)
@@ -100,12 +101,12 @@ $(NAME):	pre-build $(OBJ) $(OBJ_M)
 			
 clean:
 			$(RM) $(OBJ) $(OBJ_B) $(OBJ_M) $(OBJ_MB)
-			make clean -sC libft/
-			make clean -sC $(MLXDIR)
+#			make clean -sC libft/
+#			make clean -sC $(MLXDIR)
 			
 fclean:		clean
 			$(RM) $(NAME)
-			make fclean -sC libft/
+#			make fclean -sC libft/
 
 re:			fclean $(NAME)
 

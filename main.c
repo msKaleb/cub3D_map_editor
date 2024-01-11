@@ -6,7 +6,7 @@
 /*   By: msoria-j <msoria-j@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 08:28:03 by msoria-j          #+#    #+#             */
-/*   Updated: 2024/01/11 08:41:07 by msoria-j         ###   ########.fr       */
+/*   Updated: 2024/01/11 10:04:53 by msoria-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	main(int argc, char *argv[])
 		return (err_arg_number());
 	if ( argc > 2 && argv[2])
 		p.x = ft_atoi(argv[2]);
-	// for now, square maps
+	// for now, just square maps
 	// if (argc > 3 && argv[3])
 	// 	p.y = ft_atoi(argv[3]);
 	p.y = p.x;
@@ -54,11 +54,20 @@ int	main(int argc, char *argv[])
 	render_grid(&m, m.grid);
 	mlx_put_image_to_window(m.mlx, m.win, m.img, 0, BANNER); // put the main image
 	mlx_put_image_to_window(m.mlx, m.win, m.banner.img, 0, 0); // put the banner
-	mlx_mouse_hook(m.win, mouse_hook, &m);
+	// mlx_mouse_hook(m.win, mouse_hook, &m);
+
+	// key press and release events
 	mlx_hook(m.win, ON_KEYDOWN, X_KEYPRESS, &set_painting, &m);
 	mlx_hook(m.win, ON_KEYUP, X_KEYRELEASE, &release_painting, &m);
+	// mouse click events
+	mlx_hook(m.win, ON_MOUSEDOWN, X_BUTTONPRESS, &set_mouse_painting, &m);
+	mlx_hook(m.win, ON_MOUSEUP, X_BUTTONRELEASE, &mouse_hook, &m);
+	// mouse movement event
 	mlx_hook(m.win, ON_MOUSEMOVE, X_POINTERMOTION, &render_loop, &m);
+	// close window event
 	mlx_hook(m.win, ON_DESTROY, X_MASK, &close_mlx, &m);
+	// main loop
 	mlx_loop(m.mlx);
+
 	return(0);
 }
