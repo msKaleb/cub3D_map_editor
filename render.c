@@ -6,7 +6,7 @@
 /*   By: msoria-j <msoria-j@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 08:33:40 by msoria-j          #+#    #+#             */
-/*   Updated: 2024/01/11 10:18:10 by msoria-j         ###   ########.fr       */
+/*   Updated: 2024/01/12 15:34:59 by msoria-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,11 +85,11 @@ int	set_painting(int key_code, t_mlx *m)
 	// printf("%d\n", key_code);
 	if (key_code == XK_ESCAPE)
 		close_mlx(m);
-	if (key_code == XK_W)
-		m->painting = P_WALL;
-	else if (key_code == XK_S)
-		m->painting = P_GROUND;
-	else if (key_code == XK_D)
+	// if (key_code == XK_W)
+	// 	m->painting = P_WALL;
+	// else if (key_code == XK_S)
+	// 	m->painting = P_GROUND;
+	else if (key_code == XK_R)
 		m->painting = P_SPACE;
 	return (0);
 }
@@ -98,21 +98,18 @@ int	set_painting(int key_code, t_mlx *m)
 int	release_painting(int key_code, t_mlx *m)
 {
 	char	*saved_text;
-	// int		x, y;
 
-	if (key_code == XK_W || key_code == XK_S)
-		m->painting = P_NONE;
-	else if (key_code == XK_F)
+	if (key_code == XK_F)
 		m->painting = P_FLOOD;
 	else if (key_code == XK_E)
 		m->painting = P_DOOR;
-	else if (key_code == XK_UP)		// place the character N
+	else if (key_code == XK_W)	// place the character N
 		m->painting = P_NORTH;
-	else if (key_code == XK_DOWN)	// place the character S
+	else if (key_code == XK_S)	// place the character S
 		m->painting = P_SOUTH;
-	else if (key_code == XK_LEFT)	// place the character W
+	else if (key_code == XK_A)	// place the character W
 		m->painting = P_WEST;
-	else if (key_code == XK_RIGHT)	// place the character E
+	else if (key_code == XK_D)	// place the character E
 		m->painting = P_EAST;
 	else if (key_code == XK_Q) {
 		m->fd = open(m->argv, O_WRONLY | O_CREAT | O_TRUNC, 0644);

@@ -6,7 +6,7 @@
 /*   By: msoria-j <msoria-j@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 08:27:55 by msoria-j          #+#    #+#             */
-/*   Updated: 2024/01/11 10:09:22 by msoria-j         ###   ########.fr       */
+/*   Updated: 2024/01/12 15:35:35 by msoria-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 #  define XK_D 			0x64
 #  define XK_Q 			0x71
 #  define XK_E 			0x65
+#  define XK_R 			0x72
 #  define XK_F 			0x66
 #  define XK_P 			0x70
 #  define XK_UP			0xff52
@@ -44,6 +45,7 @@
 #  define XK_D 			0x02
 #  define XK_Q 			0x0c
 #  define XK_E 			0x0e
+#  define XK_R 			0x0f
 #  define XK_F 			0x03
 #  define XK_P 			0x23
 #  define XK_UP			0x7e

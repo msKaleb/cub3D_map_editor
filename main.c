@@ -6,14 +6,14 @@
 /*   By: msoria-j <msoria-j@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 08:28:03 by msoria-j          #+#    #+#             */
-/*   Updated: 2024/01/11 10:04:53 by msoria-j         ###   ########.fr       */
+/*   Updated: 2024/01/12 16:39:02 by msoria-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_cub_editor.h"
 #include "colors.h"
 
-void	print_controls(void)
+/* void	print_controls(void)
 {
 	ft_fprintf(1, "\nControls:\n");
 	ft_fprintf(1, "\tLeft click: paint a single wall square\n");
@@ -25,6 +25,19 @@ void	print_controls(void)
 	ft_fprintf(1, "\tArrow Keys: place the player (N, S, W, E)\n\n");
 	ft_fprintf(1, "\tF: Fill the area with floor squares\n");
 	ft_fprintf(1, "\tQ: save map (with default colors for floor and ceiling and texture paths)\n");
+} */
+
+void	print_controls(void)
+{
+	ft_fprintf(1, "\nControls:\n");
+	ft_fprintf(1, "\tLeft click: wall square (hold to 'paint')\n");
+	ft_fprintf(1, "\tRight click: floor square (hold to 'paint')\n");
+	ft_fprintf(1, "\tMiddle click: remove a single square\n\n");
+	ft_fprintf(1, "\tWASD Keys: place the player\n");
+	ft_fprintf(1, "\tF: Fill the area with floor squares\n");
+	ft_fprintf(1, "\tR: Remove squares\n");
+	ft_fprintf(1, "\tE: place a door (represented with a '2' character)\n");
+	ft_fprintf(1, "\tQ: save map (with default colors and texture paths)\n");
 }
 
 // color = (alpha << 24) + (red << 16) + (green << 8) + (blue);
@@ -38,7 +51,7 @@ int	main(int argc, char *argv[])
 	p.y = 10;
 
 	// check arguments
-	if (argc < 2 || ft_strcmp(argv[1], "--help") == 0)
+	if (argc < 2 || ft_strcmp(argv[1], "--help") == 0 || ft_strcmp(argv[1], "-h") == 0)
 		return (err_arg_number());
 	if ( argc > 2 && argv[2])
 		p.x = ft_atoi(argv[2]);
