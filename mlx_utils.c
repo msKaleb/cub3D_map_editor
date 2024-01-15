@@ -6,7 +6,7 @@
 /*   By: msoria-j <msoria-j@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 08:31:43 by msoria-j          #+#    #+#             */
-/*   Updated: 2024/01/11 10:16:34 by msoria-j         ###   ########.fr       */
+/*   Updated: 2024/01/15 14:39:54 by msoria-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,19 +28,8 @@ int	close_mlx(t_mlx *m)
 	exit(EXIT_SUCCESS);
 }
 
-/* int	key_hook(int key_code, t_mlx *m)
-{
-	if (key_code == XK_ESCAPE)
-		close_mlx(m);
-	if (key_code == XK_UP)
-		m->painting = P_NORTH;
-	if (key_code == XK_W)
-		m->painting = P_WALL;
-	return (0);
-} */
-
 /**
- * @todo check leaks on exit()
+ * @brief initializes t_mlx struct and mlx window
   */
 void	init_mlx(t_mlx *m, char *path)
 {
@@ -68,6 +57,8 @@ void	init_mlx(t_mlx *m, char *path)
 	if (m->img == NULL)
 		exit(err_mlx(m));
 	m->addr = mlx_get_data_addr(m->img, &m->bpp, &m->sl, &m->endian);
+	if (m->addr == NULL)
+		exit(err_mlx(m));
 	m->bpp_div = m->bpp / 8;
 	m->painting = P_NONE;
 }
@@ -77,7 +68,6 @@ t_img	init_square_img(t_mlx *m, int index)
 	t_img	sqr;
 	void	*sqr_ptr;
 	int		offset;
-	// int		color[MAX_SQUARES] = {COLOR_WALL, COLOR_FLOOR, COLOR_PLAYER, COLOR_DOOR};
 	int		color[MAX_SQUARES] = {COLOR_FLOOR, COLOR_WALL, COLOR_DOOR, COLOR_PLAYER};
 
 	sqr.img = mlx_new_image(m->mlx, m->grid.step_x, m->grid.step_y);
@@ -91,7 +81,6 @@ t_img	init_square_img(t_mlx *m, int index)
 			offset = (y * sqr.sl) + (x * (sqr.bpp_div));
 			sqr_ptr = sqr.addr + offset;
 			*(unsigned int *)sqr_ptr = mlx_get_color_value(m->mlx, color[index]);
-			// ft_fprintf(1, "x: %d - y: %d\n", i, j);
 		}
 	}
 	return (sqr);

@@ -6,7 +6,7 @@
 /*   By: msoria-j <msoria-j@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 08:33:40 by msoria-j          #+#    #+#             */
-/*   Updated: 2024/01/12 15:34:59 by msoria-j         ###   ########.fr       */
+/*   Updated: 2024/01/15 14:42:10 by msoria-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,22 +79,17 @@ void	print_square(t_mlx *m, int gx, int gy, char c)
 		mlx_put_image_to_window(m->mlx, m->win, m->squares[c - '0'].img, p.x + 1, p.y + BANNER + 1);
 }
 
-// key down events
+// key press events
 int	set_painting(int key_code, t_mlx *m)
 {
-	// printf("%d\n", key_code);
 	if (key_code == XK_ESCAPE)
 		close_mlx(m);
-	// if (key_code == XK_W)
-	// 	m->painting = P_WALL;
-	// else if (key_code == XK_S)
-	// 	m->painting = P_GROUND;
 	else if (key_code == XK_R)
 		m->painting = P_SPACE;
 	return (0);
 }
 
-// key up events
+// key release events
 int	release_painting(int key_code, t_mlx *m)
 {
 	char	*saved_text;
@@ -121,9 +116,6 @@ int	release_painting(int key_code, t_mlx *m)
 			BANNER - 5, COLOR_STRING, saved_text);
 		free(saved_text);
 	}
-	// mlx_mouse_get_pos(m->mlx, m->win, &x, &y); // 
-	// render_loop(m->cur.x, m->cur.y, m);
-	// mlx_mouse_get_pos(m->win, &x, &y); // 
 	render_loop(m->cur.x, m->cur.y, m);
 	return (0);
 }
@@ -138,9 +130,7 @@ void	render_map(t_mlx *m, t_grid grid, char **map)
 int	render_frame(t_mlx *m)
 {
 	mlx_destroy_image(m->mlx, m->img); // main image of the whole map
-	// mlx_destroy_image(m->mlx, m->banner.img); // the banner on the upper part of the screen
 	m->img = mlx_new_image(m->mlx, m->grid.end_x, m->grid.end_x); // recycle the main image
-	// m->banner.img = mlx_new_image(m->mlx, SCREEN_WIDTH, BANNER); // recycle the banner image
 	render_grid(m, m->grid);
 	mlx_put_image_to_window(m->mlx, m->win, m->img, 0, BANNER); // put the main image
 	mlx_put_image_to_window(m->mlx, m->win, m->banner.img, 0, 0); // put the banner
@@ -161,8 +151,6 @@ void	render_grid(t_mlx *m, t_grid grid)
 	// vertical lines
 	for (int x = MARGIN; x < grid.end_x; x += grid.step_x) {
 		for (int y = MARGIN; y < grid.end_y; y++) {			
-			// if (x >= m->grid.end_x)
-			// 	x = m->grid.end_x - 1;
 			print_pixel(m, (t_point){x, y}, COLOR_GRID);
 			if ((x + grid.step_x) >= (grid.end_x))
 				print_pixel(m, (t_point){m->grid.end_x - 1, y}, COLOR_GRID);

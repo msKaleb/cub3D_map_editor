@@ -6,7 +6,7 @@
 /*   By: msoria-j <msoria-j@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 08:27:37 by msoria-j          #+#    #+#             */
-/*   Updated: 2024/01/12 15:29:53 by msoria-j         ###   ########.fr       */
+/*   Updated: 2024/01/15 14:13:56 by msoria-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	err_arg_number(void)
 {
-	ft_fprintf(2, "Usage: ./cub_editor map_name [map_size=10]\n");
+	ft_fprintf(2, "Usage: ./editor map_name [map_size=10]\n");
 	ft_fprintf(2, "Generates a square map (by default 10x10) to be used with cub3D project.\n");
 	ft_fprintf(2, "Recommended values range from 10 to 50.\n");
 	ft_fprintf(2, "  map_name: Name of the file to be generated.\n");

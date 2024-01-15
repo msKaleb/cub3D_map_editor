@@ -6,19 +6,11 @@
 /*   By: msoria-j <msoria-j@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 08:41:50 by msoria-j          #+#    #+#             */
-/*   Updated: 2024/01/07 14:00:28 by msoria-j         ###   ########.fr       */
+/*   Updated: 2024/01/15 14:42:34 by msoria-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_cub_editor.h"
-
-/* int	is_space(char c)
-{
-	if (c == ' ' || (c > 8 && c < 14))
-		return (1);
-	else
-		return (0);
-} */
 
 void	free_map(char **map)
 {

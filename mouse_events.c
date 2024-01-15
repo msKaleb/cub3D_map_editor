@@ -6,7 +6,7 @@
 /*   By: msoria-j <msoria-j@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 09:38:32 by msoria-j          #+#    #+#             */
-/*   Updated: 2024/01/11 10:16:42 by msoria-j         ###   ########.fr       */
+/*   Updated: 2024/01/15 14:40:33 by msoria-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,3 @@ int		set_mouse_painting(int button, int x, int y, t_mlx *m)
 		m->painting = P_SPACE;
 	return (0);
 }
-
-/* int		release_mouse_painting(int button, int x, int y, t_mlx *m)
-{
-	mouse_hook(button, x, y, m);
-	m->painting = P_NONE;
-	return (0);
-} */

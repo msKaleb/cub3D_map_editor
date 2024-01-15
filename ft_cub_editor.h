@@ -6,7 +6,7 @@
 /*   By: msoria-j <msoria-j@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 08:27:55 by msoria-j          #+#    #+#             */
-/*   Updated: 2024/01/12 15:35:35 by msoria-j         ###   ########.fr       */
+/*   Updated: 2024/01/15 14:40:27 by msoria-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,7 +172,6 @@ enum e_buttons {
 };
 
 /* Functions prototipes */
-// int		release_mouse_painting(int button, int x, int y, t_mlx *m);
 int		set_mouse_painting(int button, int x, int y, t_mlx *m);
 int		mouse_hook(int button, int x, int y, t_mlx *m);
 int		release_painting(int key_code, t_mlx *m);
@@ -185,8 +184,8 @@ int		close_mlx(t_mlx *m);
 int		err_mlx(t_mlx *m);
 
 void	flood_fill(char **tab, t_point size, t_point begin);
-void	init_map_data(t_mlx *m, t_point *p);
 void	print_pixel(t_mlx *m, t_point p, int color);
+void	init_map_data(t_mlx *m, t_point *p);
 void	render_grid(t_mlx *m, t_grid grid);
 void	init_mlx(t_mlx *m, char *path);
 void	print_map(char **map, int fd);
