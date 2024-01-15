@@ -29,7 +29,12 @@ Controls:
 	Q: save map (with default colors and texture paths)
 ```
 
-https://github.com/msKaleb/cub3D_map_editor/assets/116660058/e53b372a-9878-4940-b2f9-9b6ea2b0ce17)https://github.com/msKaleb/cub3D_map_editor/assets/116660058/e53b372a-9878-4940-b2f9-9b6ea2b0ce17
+
+<div align="center">
+	<video width="812" height="876" src="https://github.com/msKaleb/cub3D_map_editor/assets/116660058/e1c7dee2-e5e2-4af6-9d7e-b95d9046dc82"></video>
+</div>
+
+
 
 
 
